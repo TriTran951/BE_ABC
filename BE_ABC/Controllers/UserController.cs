@@ -8,10 +8,22 @@ namespace BE_ABC.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class UserController : Controller
     {
-        public UserController() 
+        UserService userService;
+        public UserController(UserService _userService) 
         { 
-          
+            userService = _userService;
         }
-       
+        [HttpPost]
+        public IActionResult getAll(Pagination pagination)
+        {
+            try
+            {
+                return Ok(userService.getAll(pagination)); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace BE_ABC.Models.ErdModels
         public User Requester { get; set; }
         [ForeignKey("reporterUid")]
         public User Reporter { get; set; }
-        [ForeignKey("requestType")]
-        public RequestType RequestType { get; set; }
+        //[ForeignKey("requestType")]
+        //public RequestType RequestType { get; set; }
     }
 }

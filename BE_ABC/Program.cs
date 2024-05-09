@@ -40,9 +40,9 @@ try
 
         //business
         
-
+        
         //service
-    
+        services.AddScoped<UserService, UserService>();
 
 
         services.AddDbContext<MyDbContext>(option =>

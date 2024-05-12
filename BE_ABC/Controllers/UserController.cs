@@ -16,6 +16,30 @@ namespace BE_ABC.Controllers
             userService = _userService;
         }
         [HttpPost]
+        [Route("get")]
+        public async Task<IActionResult> getBylist(List<string> uid)
+        {
+            try
+            {
+                List<User> list = new List<User> ();
+               foreach (var req in uid)
+                {
+                    var find = await userService.FindByIdAsync(req);
+                    if (find != null)
+                    {
+                        list.Add(find);
+                    }
+                   
+                }
+
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost]
         [Route("getAll")]
         public IActionResult getAll(Pagination pagination)
         {
@@ -30,16 +54,74 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(UserReq user)
+        public async Task<IActionResult> insert(List<UserReq> user)
         {
             try
             {
-                var entity = await userService.insert(user);
-                if (entity == null)
+                foreach(var req in user)
                 {
-                    return BadRequest("fail to create");
+                    var (check, err) = await userService.checkUserInsert(req);
+                    if (!check)
+                    {
+                        return BadRequest(err);
+                    }
                 }
-                return Ok(entity);
+
+                var listInsertedUser = new List<User>();
+                foreach(var req in user)
+                {
+                    var entity = await userService.insert(req);
+                    listInsertedUser.Add(entity);
+                }
+               
+                return Ok(listInsertedUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut]
+        [Route("")]
+        public async Task<IActionResult> update(List<UserReq> user)
+        {
+            try
+            {
+                foreach (var req in user)
+                {
+                    var (check, err) = await userService.checkUpdate(req);
+                    if (!check)
+                    {
+                        return BadRequest(err);
+                    }
+                }
+
+                foreach (var req in user)
+                {
+                    await userService.update(req);
+                }
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete]
+        [Route("")]
+        public async Task<IActionResult> hardDelete(List<string> uid)
+        {
+            try
+            {
+                foreach(var req in uid)
+                {
+                    var find = await userService.FindByIdAsync(req);
+                    if(find!= null)
+                        await userService.DeleteAsync(find);
+                }    
+
+                return NoContent();
             }
             catch (Exception ex)
             {

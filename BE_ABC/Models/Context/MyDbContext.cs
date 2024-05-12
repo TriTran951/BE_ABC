@@ -30,6 +30,10 @@ namespace BE_ABC.Models.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Department>()
+                .HasIndex(d => d.directorUid)
+                .IsUnique(false);
         }
         #endregion
     }

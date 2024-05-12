@@ -15,8 +15,8 @@ namespace BE_ABC.Models.ErdModel
         public int postId { get; set; }
         [Column(TypeName = "text")]
         public string content { get; set; }
-        public List<Files> images { get; set; }
-        public List<Files> file { get; set; }
+        public List<string> images { get; set; }
+        public List<string> file { get; set; }
         public int createAt { get; set; }
         public int updateAt { get; set; }
         public StatusType status { get; set; }

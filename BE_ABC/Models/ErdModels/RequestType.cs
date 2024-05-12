@@ -19,7 +19,7 @@ namespace BE_ABC.Models.ErdModels
         public int createAt { get; set; }
         public int updateAt { get; set; }
         public StatusType status { get; set; }
+        [ForeignKey("approvalDepartmentId")]
         public Department Department { get; set; }
-        public ICollection<Request> Request {  get; set; }
     }
 }

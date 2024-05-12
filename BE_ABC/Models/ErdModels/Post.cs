@@ -18,8 +18,8 @@ namespace BE_ABC.Models.ErdModel
         public string title { get; set; }
         [Column(TypeName = "text")]
         public string content {  get; set; }
-        public List<Files> images {  get; set; }
-        public List<Files> files { get; set; }
+        public List<string> images {  get; set; }
+        public List<string> files { get; set; }
         public int likes {  get; set; }
         public int comments {  get; set; }
         public int createAt { get; set; }

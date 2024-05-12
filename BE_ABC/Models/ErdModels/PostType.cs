@@ -18,6 +18,5 @@ namespace BE_ABC.Models.ErdModel
         public int createAt { get; set; }
         public int updateAt { get; set; }
         public StatusType status { get; set; }
-        public virtual ICollection<Post> Post { get; set; }
     }
 }

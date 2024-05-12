@@ -127,6 +127,8 @@ try
 
         }
 
+        app.UseMiddleware<NotFoundMiddleware>();
+
         app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         app.UseCors("MyCors");

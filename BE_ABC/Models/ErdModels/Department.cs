@@ -13,7 +13,7 @@ namespace BE_ABC.Models.ErdModel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public string directorUid { get; set; }
-        public int name {  get; set; }
+        public string name {  get; set; }
         public List<Grade> permissionIdToCRUD { get; set; }
         public int createAt { get; set; }
         public int updateAt { get; set; }
@@ -21,6 +21,5 @@ namespace BE_ABC.Models.ErdModel
 
         [ForeignKey("directorUid")]
         public User User { get; set; }
-        public virtual ICollection<RequestType> RequestType { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BE_ABC.Migrations
 {
     /// <inheritdoc />
-    public partial class fullerd : Migration
+    public partial class fixerdtype : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -168,7 +168,8 @@ namespace BE_ABC.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     directorUid = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    name = table.Column<int>(type: "int", nullable: false),
+                    name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     permissionIdToCRUD = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     createAt = table.Column<int>(type: "int", nullable: false),
@@ -197,15 +198,14 @@ namespace BE_ABC.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     createAt = table.Column<int>(type: "int", nullable: false),
                     updateAt = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<int>(type: "int", nullable: false),
-                    Departmentid = table.Column<int>(type: "int", nullable: false)
+                    status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RequestType", x => x.id);
                     table.ForeignKey(
-                        name: "FK_RequestType_Department_Departmentid",
-                        column: x => x.Departmentid,
+                        name: "FK_RequestType_Department_approvalDepartmentId",
+                        column: x => x.approvalDepartmentId,
                         principalTable: "Department",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -232,7 +232,7 @@ namespace BE_ABC.Migrations
                     permissionIdToCRUD = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     createAt = table.Column<int>(type: "int", nullable: false),
-                    updateAt = table.Column<int>(type: "int", nullable: false),
+                    updateAt = table.Column<int>(type: "int", nullable: true),
                     status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -243,6 +243,39 @@ namespace BE_ABC.Migrations
                         column: x => x.departmentId,
                         principalTable: "Department",
                         principalColumn: "id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Document",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    documentTypeId = table.Column<int>(type: "int", nullable: false),
+                    creatorUid = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    file = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    createAt = table.Column<int>(type: "int", nullable: false),
+                    updateAt = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Document", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Document_DocumentType_documentTypeId",
+                        column: x => x.documentTypeId,
+                        principalTable: "DocumentType",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Document_User_creatorUid",
+                        column: x => x.creatorUid,
+                        principalTable: "User",
+                        principalColumn: "uid",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -397,6 +430,10 @@ namespace BE_ABC.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     content = table.Column<string>(type: "text", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    images = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    files = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     likes = table.Column<int>(type: "int", nullable: false),
                     comments = table.Column<int>(type: "int", nullable: false),
                     createAt = table.Column<int>(type: "int", nullable: false),
@@ -436,6 +473,10 @@ namespace BE_ABC.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     postId = table.Column<int>(type: "int", nullable: false),
                     content = table.Column<string>(type: "text", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    images = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    file = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     createAt = table.Column<int>(type: "int", nullable: false),
                     updateAt = table.Column<int>(type: "int", nullable: false),
@@ -490,93 +531,10 @@ namespace BE_ABC.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "Files",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    url = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    type = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    size = table.Column<int>(type: "int", nullable: false),
-                    PostCommentid = table.Column<int>(type: "int", nullable: true),
-                    PostCommentid1 = table.Column<int>(type: "int", nullable: true),
-                    Postid = table.Column<int>(type: "int", nullable: true),
-                    Postid1 = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Files", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Files_PostComment_PostCommentid",
-                        column: x => x.PostCommentid,
-                        principalTable: "PostComment",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_Files_PostComment_PostCommentid1",
-                        column: x => x.PostCommentid1,
-                        principalTable: "PostComment",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_Files_Post_Postid",
-                        column: x => x.Postid,
-                        principalTable: "Post",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_Files_Post_Postid1",
-                        column: x => x.Postid1,
-                        principalTable: "Post",
-                        principalColumn: "id");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Document",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    documentTypeId = table.Column<int>(type: "int", nullable: false),
-                    creatorUid = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    fileid = table.Column<int>(type: "int", nullable: false),
-                    createAt = table.Column<int>(type: "int", nullable: false),
-                    updateAt = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Document", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Document_DocumentType_documentTypeId",
-                        column: x => x.documentTypeId,
-                        principalTable: "DocumentType",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Document_Files_fileid",
-                        column: x => x.fileid,
-                        principalTable: "Files",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Document_User_creatorUid",
-                        column: x => x.creatorUid,
-                        principalTable: "User",
-                        principalColumn: "uid",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateIndex(
                 name: "IX_Department_directorUid",
                 table: "Department",
-                column: "directorUid",
-                unique: true);
+                column: "directorUid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Document_creatorUid",
@@ -589,11 +547,6 @@ namespace BE_ABC.Migrations
                 column: "documentTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Document_fileid",
-                table: "Document",
-                column: "fileid");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Event_eventTypeId",
                 table: "Event",
                 column: "eventTypeId");
@@ -602,26 +555,6 @@ namespace BE_ABC.Migrations
                 name: "IX_Event_reporterUid",
                 table: "Event",
                 column: "reporterUid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Files_PostCommentid",
-                table: "Files",
-                column: "PostCommentid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Files_PostCommentid1",
-                table: "Files",
-                column: "PostCommentid1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Files_Postid",
-                table: "Files",
-                column: "Postid");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Files_Postid1",
-                table: "Files",
-                column: "Postid1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Post_creatorUid",
@@ -674,9 +607,9 @@ namespace BE_ABC.Migrations
                 column: "requestType");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RequestType_Departmentid",
+                name: "IX_RequestType_approvalDepartmentId",
                 table: "RequestType",
-                column: "Departmentid");
+                column: "approvalDepartmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Resource_resourceTypeId",
@@ -726,6 +659,9 @@ namespace BE_ABC.Migrations
                 name: "Permission");
 
             migrationBuilder.DropTable(
+                name: "PostComment");
+
+            migrationBuilder.DropTable(
                 name: "PostLike");
 
             migrationBuilder.DropTable(
@@ -738,7 +674,7 @@ namespace BE_ABC.Migrations
                 name: "DocumentType");
 
             migrationBuilder.DropTable(
-                name: "Files");
+                name: "Post");
 
             migrationBuilder.DropTable(
                 name: "RequestType");
@@ -747,19 +683,13 @@ namespace BE_ABC.Migrations
                 name: "Resource");
 
             migrationBuilder.DropTable(
-                name: "PostComment");
-
-            migrationBuilder.DropTable(
-                name: "ResourceType");
-
-            migrationBuilder.DropTable(
-                name: "Post");
-
-            migrationBuilder.DropTable(
                 name: "Event");
 
             migrationBuilder.DropTable(
                 name: "PostType");
+
+            migrationBuilder.DropTable(
+                name: "ResourceType");
 
             migrationBuilder.DropTable(
                 name: "EventType");

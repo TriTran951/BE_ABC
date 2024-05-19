@@ -29,13 +29,14 @@ namespace BE_ABC.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost]
         [Route("get")]
-        public async Task<IActionResult> getBylist(List<string> uid)
+        public async Task<IActionResult> getBylist(List<string> id)
         {
             try
             {
                 List<Post> list = new List<Post>();
-                foreach (var req in uid)
+                foreach (var req in id)
                 {
                     var find = await postService.FindByIdAsync(req);
                     if (find != null)

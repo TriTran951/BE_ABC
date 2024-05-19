@@ -11,7 +11,7 @@ namespace BE_ABC.Models.ErdModels
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
-        public int eventTypeId { get; set; }
+        public string eventTypeId { get; set; }
         public string reporterUid { get; set; }
         public List<int> resouceUsingId { get; set; }
         public List<int> postsId { get; set; }

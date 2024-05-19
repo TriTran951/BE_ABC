@@ -34,7 +34,7 @@ namespace BE_ABC.Services
                 findUser.departmentId = user.departmentId;
                 findUser.grade = user.grade;
                 findUser.username = user.username;
-                findUser.birthday = (int)DateTimeExtensions.ToUnixTime(DateTime.UtcNow);
+                findUser.birthday = findUser.birthday;
                 findUser.email = user.email;
                 findUser.avatar = user.avatar;
                 findUser.description = user.description;
@@ -54,7 +54,7 @@ namespace BE_ABC.Services
             newUser.departmentId = user.departmentId;
             newUser.grade = user.grade;
             newUser.username = user.username;
-            newUser.birthday = (int)DateTimeExtensions.ToUnixTime(DateTime.UtcNow);
+            newUser.birthday = user.birthday;
             newUser.email = user.email;
             newUser.avatar = user.avatar;
             newUser.description = user.description;
@@ -73,9 +73,9 @@ namespace BE_ABC.Services
         public async Task<(bool, string)> checkUserInsert(UserReq user)
         {
             var findUser = await db.User.FindAsync(user.uid);
-            if(findUser == null)
+            if(findUser != null)
             {
-                return (false, "User exist");
+                return (false, $"User {user.uid} exist");
             }
 
             if(user.departmentId != null)

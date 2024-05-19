@@ -11,7 +11,7 @@ namespace BE_ABC.Models.ErdModel
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
-        public int resourceTypeId { get; set; }
+        public string resourceTypeId { get; set; }
         public string name { get; set; }
         [Column(TypeName = "text")]
         public string description { get; set; }

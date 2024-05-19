@@ -10,7 +10,7 @@ namespace BE_ABC.Models.ErdModels
     {
         [Key]
         public string uid { get; set; }
-        public int? departmentId { get; set; }
+        public string? departmentId { get; set; }
         public Grade? grade { get; set; }
         public string username { get; set; }
         public int birthday { get; set; }

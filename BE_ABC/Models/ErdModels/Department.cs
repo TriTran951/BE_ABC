@@ -10,8 +10,7 @@ namespace BE_ABC.Models.ErdModel
     public class Department
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        public string id { get; set; }
         public string directorUid { get; set; }
         public string name {  get; set; }
         public List<Grade> permissionIdToCRUD { get; set; }

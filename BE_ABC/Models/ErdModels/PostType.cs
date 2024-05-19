@@ -8,8 +8,7 @@ namespace BE_ABC.Models.ErdModel
     public class PostType
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        public string id { get; set; }
         public string name { get; set; }
         [Column(TypeName = "text")]
         public string description { get; set; } 

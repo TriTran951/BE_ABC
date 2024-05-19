@@ -24,11 +24,8 @@ namespace BE_ABC.Migrations
 
             modelBuilder.Entity("BE_ABC.Models.ErdModel.Department", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+                    b.Property<string>("id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("createAt")
                         .HasColumnType("int");
@@ -98,8 +95,9 @@ namespace BE_ABC.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("postTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("postTypeId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("status")
                         .HasColumnType("int");
@@ -202,11 +200,8 @@ namespace BE_ABC.Migrations
 
             modelBuilder.Entity("BE_ABC.Models.ErdModel.PostType", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+                    b.Property<string>("id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("createAt")
                         .HasColumnType("int");
@@ -260,8 +255,9 @@ namespace BE_ABC.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("resourceTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("resourceTypeId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("status")
                         .HasColumnType("int");
@@ -291,8 +287,9 @@ namespace BE_ABC.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("documentTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("documentTypeId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("file")
                         .IsRequired()
@@ -315,11 +312,8 @@ namespace BE_ABC.Migrations
 
             modelBuilder.Entity("BE_ABC.Models.ErdModels.DocumentType", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+                    b.Property<string>("id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("createAt")
                         .HasColumnType("int");
@@ -369,8 +363,9 @@ namespace BE_ABC.Migrations
                     b.Property<int>("endAt")
                         .HasColumnType("int");
 
-                    b.Property<int>("eventTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("eventTypeId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -416,11 +411,8 @@ namespace BE_ABC.Migrations
 
             modelBuilder.Entity("BE_ABC.Models.ErdModels.EventType", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+                    b.Property<string>("id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("createAt")
                         .HasColumnType("int");
@@ -518,8 +510,9 @@ namespace BE_ABC.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("requestType")
-                        .HasColumnType("int");
+                    b.Property<string>("requestType")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("requesterUid")
                         .IsRequired()
@@ -547,14 +540,12 @@ namespace BE_ABC.Migrations
 
             modelBuilder.Entity("BE_ABC.Models.ErdModels.RequestType", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("id")
+                        .HasColumnType("varchar(255)");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("approvalDepartmentId")
-                        .HasColumnType("int");
+                    b.Property<string>("approvalDepartmentId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("createAt")
                         .HasColumnType("int");
@@ -589,11 +580,8 @@ namespace BE_ABC.Migrations
 
             modelBuilder.Entity("BE_ABC.Models.ErdModels.ResourceType", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+                    b.Property<string>("id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("createAt")
                         .HasColumnType("int");
@@ -689,8 +677,8 @@ namespace BE_ABC.Migrations
                     b.Property<int>("createAt")
                         .HasColumnType("int");
 
-                    b.Property<int?>("departmentId")
-                        .HasColumnType("int");
+                    b.Property<string>("departmentId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("description")
                         .IsRequired()

@@ -43,7 +43,7 @@ try
         
         //service
         services.AddScoped<UserService, UserService>();
-
+        services.AddScoped<PostTypeService, PostTypeService>();
 
         services.AddDbContext<MyDbContext>(option =>
         {

@@ -9,11 +9,10 @@ namespace BE_ABC.Models.ErdModels
     public class RequestType
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; set; }
+        public string id { get; set; }
         public string name { get; set; }
         public string description { get; set; }
-        public int approvalDepartmentId { get; set; }
+        public string approvalDepartmentId { get; set; }
         public Grade minApprovalGrade { get; set; }
         public List<Grade> permissionIdToCRUD { get; set; }
         public int createAt { get; set; }

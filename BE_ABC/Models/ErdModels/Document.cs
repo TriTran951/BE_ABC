@@ -10,7 +10,7 @@ namespace BE_ABC.Models.ErdModels
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
-        public int documentTypeId { get; set; }
+        public string documentTypeId { get; set; }
         public string creatorUid { get; set; }
         public string file { get; set; }
         public int createAt { get; set; }

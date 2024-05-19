@@ -12,7 +12,7 @@ namespace BE_ABC.Models.ErdModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public string requesterUid { get; set; }
-        public int requestType { get; set; }
+        public string requestType { get; set; }
         public string reporterUid { get; set; }
         public string name { get; set; }
         [Column(TypeName = "text")]

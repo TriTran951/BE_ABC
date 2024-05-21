@@ -1,5 +1,6 @@
 ﻿using BE_ABC.Models.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BE_ABC.Services.GenericService
 {
@@ -31,6 +32,11 @@ namespace BE_ABC.Services.GenericService
             {
                 DetachLocal(predicate);
             }
+
+            var dbEntityEntry = db.Entry(entity);
+            dbEntityEntry.State = EntityState.Modified;
+
+            dbEntityEntry.Property("CreateAt").IsModified = false;
 
             db.Set<T>().Update(entity);
 

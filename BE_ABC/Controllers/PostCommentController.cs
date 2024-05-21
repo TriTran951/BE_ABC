@@ -1,20 +1,20 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
-using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
+using BE_ABC.Util;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BE_ABC.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PostController : Controller
+    public class PostCommentController : ControllerBase
     {
-        private readonly PostService postService;
-        public PostController(PostService postService)
+        private readonly PostCommentService postCommentService;
+        public PostCommentController(PostCommentService postCommentController)
         {
-            this.postService = postService;
+            this.postCommentService = postCommentController;
         }
         [HttpPost]
         [Route("getAll")]
@@ -22,7 +22,7 @@ namespace BE_ABC.Controllers
         {
             try
             {
-                return Ok(postService.getAll(pagination));
+                return Ok(postCommentService.getAll(pagination));
             }
             catch (Exception ex)
             {
@@ -35,10 +35,10 @@ namespace BE_ABC.Controllers
         {
             try
             {
-                List<Post> list = new List<Post>();
+                List<PostComment> list = new List<PostComment>();
                 foreach (var req in uid)
                 {
-                    var find = await postService.FindByIdAsync(req);
+                    var find = await postCommentService.FindByIdAsync(req);
                     if (find != null)
                     {
                         list.Add(find);
@@ -55,23 +55,25 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<PostReq> ptReq)
+        public async Task<IActionResult> insert(List<PostCommentReq> ptReq)
         {
             try
             {
+
                 foreach (var req in ptReq)
                 {
-                    var (check, err) = await postService.checkInsertPost(req);
+                    var (check, err) = await postCommentService.checkInsert(req);
+
                     if (!check)
                     {
                         return BadRequest(err);
                     }
                 }
 
-                var listInsertedUser = new List<Post>();
+                var listInsertedUser = new List<PostComment>();
                 foreach (var req in ptReq)
                 {
-                    var entity = await postService.insert(req);
+                    var entity = await postCommentService.insert(req);
                     listInsertedUser.Add(entity);
                 }
 
@@ -84,14 +86,20 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<PostType> pt)
+        public async Task<IActionResult> update(List<PostComment> pt)
         {
             try
             {
-   
+
                 foreach (var req in pt)
                 {
-                    await postService.update(req);
+                    var (check, err) = await postCommentService.checkUpdate(req);
+                }
+
+                foreach (var req in pt)
+                {
+                    req.updateAt = DateTimeExtensions.getUxixTimeNow();
+                    await postCommentService.UpdateAsync(req);
                 }
 
                 return NoContent();
@@ -109,9 +117,9 @@ namespace BE_ABC.Controllers
             {
                 foreach (var req in id)
                 {
-                    var find = await postService.FindByIdAsync(req);
+                    var find = await postCommentService.FindByIdAsync(req);
                     if (find != null)
-                        await postService.DeleteAsync(find);
+                        await postCommentService.DeleteAsync(find);
                 }
 
                 return NoContent();

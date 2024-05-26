@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using BE_ABC.Middlewares;
 using BE_ABC.Services;
 using BE_ABC.Services.GenericService;
+using BE_ABC.Models.ErdModel;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -45,6 +46,11 @@ try
         services.AddScoped<UserService, UserService>();
         services.AddScoped<PostTypeService, PostTypeService>();
         services.AddScoped<PostCommentService, PostCommentService>();
+        services.AddScoped<PostLikeService, PostLikeService>();
+        services.AddScoped<RequestTypeService, RequestTypeService>();
+        services.AddScoped<DepartmentService, DepartmentService>();
+        services.AddScoped<PostService, PostService>();
+
 
         services.AddDbContext<MyDbContext>(option =>
         {

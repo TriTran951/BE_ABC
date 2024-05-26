@@ -7,13 +7,12 @@ using BE_ABC.Util;
 
 namespace BE_ABC.Services
 {
-    public class PostCommentService : GenericService<PostComment>
+    public class PostLikeService : GenericService<PostLike>
     {
-        public PostCommentService(MyDbContext context) : base(context)
+        public PostLikeService(MyDbContext context) : base(context)
         {
         }
-
-        internal async Task<(bool check, string err)> checkInsert(PostCommentReq req)
+        internal async Task<(bool check, string err)> checkInsert(PostLikeReq req)
         {
             var findUser = await db.User.FindAsync(req.userId);
 
@@ -32,13 +31,13 @@ namespace BE_ABC.Services
             return (true, "");
         }
 
-        internal async Task<(bool check, string err)> checkUpdate(PostComment req)
+        internal async Task<(bool check, string err)> checkUpdate(PostLike req)
         {
-            var findComment = await db.PostComment.FindAsync(req.id);
+            var findComment = await db.PostLike.FindAsync(req.id);
 
             if (findComment == null)
             {
-                return (false, "Comment not exist");
+                return (false, "Like not exist");
             }
 
             var findUser = await db.User.FindAsync(req.userId);
@@ -58,25 +57,22 @@ namespace BE_ABC.Services
             return (true, "");
         }
 
-        internal List<PostComment> getAll(Pagination page)
+        internal List<PostLike> getAll(Pagination page)
         {
-            var user = db.PostComment.Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+            var user = db.PostLike.Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
             if (user != null)
             {
                 return user;
             }
             else
-                return new List<PostComment> { };
+                return new List<PostLike> { };
         }
 
-        internal async Task<PostComment> insert(PostCommentReq req)
+        internal async Task<PostLike> insert(PostLikeReq req)
         {
-            var newComment = new PostComment();
+            var newComment = new PostLike();
             newComment.userId = req.userId;
             newComment.postId = req.postId;
-            newComment.content = req.content;
-            newComment.images = req.images;
-            newComment.file = req.file;
             newComment.createAt = DateTimeExtensions.getUxixTimeNow();
             newComment.updateAt = DateTimeExtensions.getUxixTimeNow();
             newComment.status = req.status;
@@ -84,16 +80,29 @@ namespace BE_ABC.Services
             var post = await db.Post.FindAsync(req.postId);
             if (post != null)
             {
-                post.comments++;
+                post.likes++;
                 db.Set<Post>().Update(post);
             }
 
             db.Attach(newComment);
-            var entityEntry = await db.Set<PostComment>().AddAsync(newComment);
+            var entityEntry = await db.Set<PostLike>().AddAsync(newComment);
 
             await db.SaveChangesAsync();
 
             return entityEntry.Entity;
+        }
+        internal async Task update(PostLike req)
+        {
+            var findUser = await db.PostLike.FindAsync(req.id);
+            if (findUser != null)
+            {
+                findUser.id = req.id;
+                findUser.userId = req.userId;
+                findUser.postId = req.postId;
+                findUser.updateAt = DateTimeExtensions.getUxixTimeNow();
+                findUser.status = req.status;
+
+            }
         }
     }
 }

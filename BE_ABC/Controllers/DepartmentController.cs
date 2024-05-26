@@ -7,14 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BE_ABC.Controllers
 {
+
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PostTypeController : Controller
+    public class DepartmentController : Controller
     {
-        private readonly  PostTypeService postTypeService;
-        public PostTypeController(PostTypeService postTypeService)
+        private readonly DepartmentService DepartmentService;
+        public DepartmentController(DepartmentService DepartmentService)
         {
-            this.postTypeService = postTypeService;
+            this.DepartmentService = DepartmentService;
         }
         [HttpPost]
         [Route("getAll")]
@@ -22,7 +23,7 @@ namespace BE_ABC.Controllers
         {
             try
             {
-                return Ok(postTypeService.getAll(pagination));
+                return Ok(DepartmentService.getAll(pagination));
             }
             catch (Exception ex)
             {
@@ -31,14 +32,14 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("get")]
-        public async Task<IActionResult> getBylist(List<string> uid)
+        public async Task<IActionResult> getBylist(List<string> id)
         {
             try
             {
-                List<PostType> list = new List<PostType>();
-                foreach (var req in uid)
+                List<Department> list = new List<Department>();
+                foreach (var req in id)
                 {
-                    var find = await postTypeService.FindByIdAsync(req);
+                    var find = await DepartmentService.FindByIdAsync(req);
                     if (find != null)
                     {
                         list.Add(find);
@@ -55,23 +56,23 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<PostTypeReq> ptReq)
+        public async Task<IActionResult> insert(List<DepartmentReq> ptReq)
         {
             try
             {
-                //foreach (var req in ptReq)
-                //{
-                //    var (check, err) = await postTypeService.checkTypeInsert(req);
-                //    if (!check)
-                //    {
-                //        return BadRequest(err);
-                //    }
-                //}
-
-                var listInsertedUser = new List<PostType>();
                 foreach (var req in ptReq)
                 {
-                    var entity = await postTypeService.insert(req);
+                    var (check, err) = await DepartmentService.checkInsert(req);
+                    if (!check)
+                    {
+                        return BadRequest(err);
+                    }
+                }
+
+                var listInsertedUser = new List<Department>();
+                foreach (var req in ptReq)
+                {
+                    var entity = await DepartmentService.insert(req);
                     listInsertedUser.Add(entity);
                 }
 
@@ -84,13 +85,13 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<PostType> pt)
+        public async Task<IActionResult> update(List<Department> pt)
         {
             try
             {
                 //foreach (var req in user)
                 //{
-                //    var (check, err) = await postTypeService.checkUpdate(req);
+                //    var (check, err) = await DepartmentService.check(req);
                 //    if (!check)
                 //    {
                 //        return BadRequest(err);
@@ -99,7 +100,7 @@ namespace BE_ABC.Controllers
 
                 foreach (var req in pt)
                 {
-                    await postTypeService.update(req);
+                    await DepartmentService.update(req);
                 }
 
                 return NoContent();
@@ -117,9 +118,9 @@ namespace BE_ABC.Controllers
             {
                 foreach (var req in uid)
                 {
-                    var find = await postTypeService.FindByIdAsync(req);
+                    var find = await DepartmentService.FindByIdAsync(req);
                     if (find != null)
-                        await postTypeService.DeleteAsync(find);
+                        await DepartmentService.DeleteAsync(find);
                 }
 
                 return NoContent();
@@ -129,5 +130,6 @@ namespace BE_ABC.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

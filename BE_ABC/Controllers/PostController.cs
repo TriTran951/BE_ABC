@@ -84,11 +84,16 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<PostType> pt)
+        public async Task<IActionResult> update(List<Post> pt)
         {
             try
             {
-   
+                foreach (var req in pt)
+                {
+                    await postService.checkUpdate(req);
+                }
+
+
                 foreach (var req in pt)
                 {
                     await postService.update(req);

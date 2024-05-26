@@ -1,7 +1,6 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
-using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +8,12 @@ namespace BE_ABC.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PostTypeController : Controller
+    public class PostLikeController : Controller
     {
-        private readonly  PostTypeService postTypeService;
-        public PostTypeController(PostTypeService postTypeService)
+        private readonly PostLikeService PostLikeService;
+        public PostLikeController(PostLikeService PostLikeService)
         {
-            this.postTypeService = postTypeService;
+            this.PostLikeService = PostLikeService;
         }
         [HttpPost]
         [Route("getAll")]
@@ -22,7 +21,7 @@ namespace BE_ABC.Controllers
         {
             try
             {
-                return Ok(postTypeService.getAll(pagination));
+                return Ok(PostLikeService.getAll(pagination));
             }
             catch (Exception ex)
             {
@@ -35,10 +34,10 @@ namespace BE_ABC.Controllers
         {
             try
             {
-                List<PostType> list = new List<PostType>();
+                List<PostLike> list = new List<PostLike>();
                 foreach (var req in uid)
                 {
-                    var find = await postTypeService.FindByIdAsync(req);
+                    var find = await PostLikeService.FindByIdAsync(req);
                     if (find != null)
                     {
                         list.Add(find);
@@ -55,23 +54,23 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<PostTypeReq> ptReq)
+        public async Task<IActionResult> insert(List<PostLikeReq> ptReq)
         {
             try
             {
-                //foreach (var req in ptReq)
-                //{
-                //    var (check, err) = await postTypeService.checkTypeInsert(req);
-                //    if (!check)
-                //    {
-                //        return BadRequest(err);
-                //    }
-                //}
-
-                var listInsertedUser = new List<PostType>();
                 foreach (var req in ptReq)
                 {
-                    var entity = await postTypeService.insert(req);
+                    var (check, err) = await PostLikeService.checkInsert(req);
+                    if (!check)
+                    {
+                        return BadRequest(err);
+                    }
+                }
+
+                var listInsertedUser = new List<PostLike>();
+                foreach (var req in ptReq)
+                {
+                    var entity = await PostLikeService.insert(req);
                     listInsertedUser.Add(entity);
                 }
 
@@ -84,22 +83,22 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<PostType> pt)
+        public async Task<IActionResult> update(List<PostLike> pt)
         {
             try
             {
-                //foreach (var req in user)
-                //{
-                //    var (check, err) = await postTypeService.checkUpdate(req);
-                //    if (!check)
-                //    {
-                //        return BadRequest(err);
-                //    }
-                //}
+                foreach (var req in pt)
+                {
+                    var (check, err) = await PostLikeService.checkUpdate(req);
+                    if (!check)
+                    {
+                        return BadRequest(err);
+                    }
+                }
 
                 foreach (var req in pt)
                 {
-                    await postTypeService.update(req);
+                    await PostLikeService.update(req);
                 }
 
                 return NoContent();
@@ -117,9 +116,9 @@ namespace BE_ABC.Controllers
             {
                 foreach (var req in uid)
                 {
-                    var find = await postTypeService.FindByIdAsync(req);
+                    var find = await PostLikeService.FindByIdAsync(req);
                     if (find != null)
-                        await postTypeService.DeleteAsync(find);
+                        await PostLikeService.DeleteAsync(find);
                 }
 
                 return NoContent();

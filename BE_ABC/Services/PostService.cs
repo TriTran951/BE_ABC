@@ -24,6 +24,14 @@ namespace BE_ABC.Services
                 return (false, $"Post type id={req.postTypeId} not exist");
             }
 
+            if (req.eventId != null) { 
+                var findEvent = await db.Event.FindAsync(req.eventId);
+                if (findEvent == null)
+                {
+                    return (false, $"Event id={req.eventId} not exist");
+                }
+            }
+
             //check creator
             var findUser = await db.User.FindAsync(req.creatorUid);
             if (findUser == null)

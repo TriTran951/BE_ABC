@@ -11,6 +11,10 @@ using BE_ABC.Middlewares;
 using BE_ABC.Services;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Models.ErdModel;
+using Google.Apis.Drive.v3;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Services;
+using BE_ABC.Services.StorageService;
 
 
 Log.Logger = new LoggerConfiguration()
@@ -53,6 +57,20 @@ try
         services.AddScoped<PostService, PostService>();
         services.AddScoped<ResourceTypeService, ResourceTypeService>();
         services.AddScoped<ResourceService, ResourceService>();
+
+        services.AddSingleton<DriveService>(sp =>
+        {
+            var credentialsPath = "./credentials.json";
+            using var stream = new FileStream(credentialsPath, FileMode.Open, FileAccess.Read);
+            var credentials = GoogleCredential.FromStream(stream).CreateScoped(DriveService.Scope.DriveFile);
+            return new DriveService(new BaseClientService.Initializer()
+            {
+                HttpClientInitializer = credentials,
+                ApplicationName = "BE_ABC"
+            });
+        });
+
+        builder.Services.AddSingleton<GoogleDriveService>();
 
         services.AddDbContext<MyDbContext>(option =>
         {

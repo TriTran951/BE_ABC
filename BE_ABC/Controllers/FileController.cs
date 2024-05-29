@@ -23,7 +23,7 @@ namespace BE_ABC.Controllers
                     return BadRequest("File not selected");
             }
 
-            List<dynamic> dataReturn = new List<dynamic>;
+            List<dynamic> dataReturn = new List<dynamic>();
             foreach (var file in files)
             {
                 var (fileId, webViewLink, webContentLink) = await _googleDriveService.UploadFileAsync(file);
@@ -39,12 +39,7 @@ namespace BE_ABC.Controllers
 
             }
 
-            return Ok(new
-            {
-                FileId = fileId,
-                WebViewLink = webViewLink,
-                WebContentLink = webContentLink
-            });
+            return Ok(dataReturn);
         }
     }
 }

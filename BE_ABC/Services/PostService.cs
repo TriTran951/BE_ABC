@@ -147,6 +147,9 @@ namespace BE_ABC.Services
                 findUser.updateAt = DateTimeExtensions.getUxixTimeNow();
                 findUser.status = req.status;
 
+                db.Set<Post>().Update(findUser);
+
+                await db.SaveChangesAsync();
             }
         }
     }

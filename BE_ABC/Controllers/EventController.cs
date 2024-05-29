@@ -1,4 +1,6 @@
-﻿using BE_ABC.Models.CommonModels;
+﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
@@ -8,28 +10,28 @@ namespace BE_ABC.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class UserController : Controller
+    public class EventController : Controller
     {
-        UserService userService;
-        public UserController(UserService _userService) 
-        { 
-            userService = _userService;
+        EventService eventService;
+        public EventController(EventService _eventService)
+        {
+            eventService = _eventService;
         }
         [HttpPost]
         [Route("get")]
-        public async Task<IActionResult> getBylist(List<string> uid)
+        public async Task<IActionResult> getBylist(List<int> uid)
         {
             try
             {
-                List<User> list = new List<User> ();
-               foreach (var req in uid)
+                List<Event> list = new List<Event>();
+                foreach (var req in uid)
                 {
-                    var find = await userService.get(req);
+                    var find = await eventService.FindByIdAsync(req);
                     if (find != null)
                     {
                         list.Add(find);
                     }
-                   
+
                 }
 
                 return Ok(list);
@@ -39,66 +41,60 @@ namespace BE_ABC.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost]
         [Route("getAll")]
         public IActionResult getAll(Pagination pagination)
         {
             try
             {
-                return Ok(userService.getAll(pagination)); 
+                return Ok(eventService.getAll(pagination));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<UserReq> user)
+        public async Task<IActionResult> insert(List<EventCreateReq> events)
         {
             try
             {
-                foreach(var req in user)
+                var listInsertedEvent = new List<Event>();
+                foreach (var req in events)
                 {
-                    var (check, err) = await userService.checkUserInsert(req);
-                    if (!check)
-                    {
-                        return BadRequest(err);
-                    }
+                    var entity = await eventService.insert(req);
+                    listInsertedEvent.Add(entity);
                 }
 
-                var listInsertedUser = new List<User>();
-                foreach(var req in user)
-                {
-                    var entity = await userService.insert(req);
-                    listInsertedUser.Add(entity);
-                }
-               
-                return Ok(listInsertedUser);
+                return Ok(listInsertedEvent);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<UserReq> user)
+        public async Task<IActionResult> update(List<EventReq> events)
         {
             try
             {
-                foreach (var req in user)
+                foreach (var req in events)
                 {
-                    var (check, err) = await userService.checkUpdate(req);
+                    var (check, err) = await eventService.checkUpdate(req);
                     if (!check)
                     {
                         return BadRequest(err);
                     }
                 }
 
-                foreach (var req in user)
+                foreach (var req in events)
                 {
-                    await userService.update(req);
+                    await eventService.update(req);
                 }
 
                 return NoContent();
@@ -108,18 +104,19 @@ namespace BE_ABC.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpDelete]
         [Route("")]
-        public async Task<IActionResult> hardDelete(List<string> uid)
+        public async Task<IActionResult> hardDelete(List<int> uid)
         {
             try
             {
-                foreach(var req in uid)
+                foreach (var req in uid)
                 {
-                    var find = await userService.FindByIdAsync(req);
-                    if(find!= null)
-                        await userService.DeleteAsync(find);
-                }    
+                    var find = await eventService.FindByIdAsync(req);
+                    if (find != null)
+                        await eventService.DeleteAsync(find);
+                }
 
                 return NoContent();
             }

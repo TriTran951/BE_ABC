@@ -5,6 +5,7 @@ using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BE_ABC.Services
@@ -13,6 +14,11 @@ namespace BE_ABC.Services
     {
         public UserService(MyDbContext context) : base(context)
         {
+        }
+        internal async Task<User?> get(string req)
+        {
+            var user = db.User.Where(u=>u.uid==req).Include(u=>u.Department).FirstOrDefault();
+            return user;
         }
         public List<User> getAll(Pagination page)
         {
@@ -110,5 +116,7 @@ namespace BE_ABC.Services
 
             return (true, "Ok");
         }
+
+
     }
 }

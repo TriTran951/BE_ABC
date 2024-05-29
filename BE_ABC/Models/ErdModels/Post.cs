@@ -2,6 +2,7 @@
 using BE_ABC.Models.ErdModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BE_ABC.Models.ErdModel
 {
@@ -22,16 +23,19 @@ namespace BE_ABC.Models.ErdModel
         public List<string> files { get; set; }
         public int likes {  get; set; }
         public int comments {  get; set; }
+        [JsonIgnore]
         public int createAt { get; set; }
+        [JsonIgnore]
         public int updateAt { get; set; }
         public StatusType status { get; set; }
-        public virtual ICollection<PostLike> PostLike { get; set; }
-        public virtual ICollection<PostComment> PostComment { get; set; }
         [ForeignKey("postTypeId")]
+        [JsonIgnore]
         public PostType PostType { get; set; }
         [ForeignKey("creatorUid")]
+        [JsonIgnore]
         public User User { get; set; }
         [ForeignKey("eventId")]
+        [JsonIgnore]
         public Event Event { get; set; }
     }
 }

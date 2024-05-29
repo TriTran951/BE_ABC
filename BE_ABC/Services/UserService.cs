@@ -22,7 +22,9 @@ namespace BE_ABC.Services
         }
         public List<User> getAll(Pagination page)
         {
-            var user = db.User.Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+            var user = db.User
+                .Include(u=>u.Department)
+                .Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
             if (user != null)
             {
                 return user;

@@ -76,7 +76,16 @@ namespace BE_ABC.Services
 
             return (true, "");
         }
+        internal async Task<List<ResourceUsing>> getByUid(string uid)
+        {
+            var post = db.ResourceUsing.Where(u => u.borrowerUid == uid)
+                .Include(u => u.Reporter)
+                .Include(u => u.Borrower)
+                .Include(u => u.Resource)
+                .ToList();
 
+            return post;
+        }
         public List<ResourceUsing> getAll(Pagination page)
         {
             var user = db.ResourceUsing

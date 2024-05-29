@@ -5,6 +5,7 @@ using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
+using Microsoft.EntityFrameworkCore;
 
 namespace BE_ABC.Services
 {
@@ -43,10 +44,15 @@ namespace BE_ABC.Services
 
             return (true, "");
         }
+        internal async Task<Resource> get(int req)
+        {
+            var user = db.Resource.Where(u => u.id == req).Include(u => u.ResourceType).FirstOrDefault();
 
+            return user;
+        }
         public List<Resource> getAll(Pagination page)
         {
-            var user = db.Resource.Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+            var user = db.Resource.Include(u=>u.ResourceType).Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
             if (user != null)
             {
                 return user;
@@ -93,6 +99,8 @@ namespace BE_ABC.Services
                 await db.SaveChangesAsync();
             }
         }
+
+
 
         internal async Task<(List<Resource>? data, string err)> getResourceByType(string resourceId)
         {

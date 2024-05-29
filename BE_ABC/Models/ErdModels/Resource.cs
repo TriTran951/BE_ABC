@@ -24,6 +24,6 @@ namespace BE_ABC.Models.ErdModel
 
         [ForeignKey("resourceTypeId")]
         public ResourceType ResourceType { get; set; }
-        public virtual ICollection<ResourceUsing> ResourceUsing { get; set; }
+        //public virtual ICollection<ResourceUsing> ResourceUsing { get; set; }
     }
 }

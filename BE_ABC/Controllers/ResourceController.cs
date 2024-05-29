@@ -30,14 +30,14 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("get")]
-        public async Task<IActionResult> getBylist(List<string> uid)
+        public async Task<IActionResult> getBylist(List<int> uid)
         {
             try
             {
                 List<Resource> list = new List<Resource>();
                 foreach (var req in uid)
                 {
-                    var find = await ResourceService.FindByIdAsync(req);
+                    var find = await ResourceService.get(req);
                     if (find != null)
                     {
                         list.Add(find);

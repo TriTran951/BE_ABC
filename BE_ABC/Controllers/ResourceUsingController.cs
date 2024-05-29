@@ -12,9 +12,11 @@ namespace BE_ABC.Controllers
     public class ResourceUsingController : Controller
     {
         private readonly ResourceUsingService ResourceUsingService;
-        public ResourceUsingController(ResourceUsingService ResourceUsingService)
+        private readonly UserService userService;
+        public ResourceUsingController(ResourceUsingService ResourceUsingService, UserService UserService)
         {
             this.ResourceUsingService = ResourceUsingService;
+            this.userService = UserService;
         }
         [HttpPost]
         [Route("getAll")]
@@ -129,6 +131,27 @@ namespace BE_ABC.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+        [HttpGet]
+        [Route("getAllByBorrowerUid")]
+        public async Task<IActionResult> getBylist(string uid)
+        {
+            try
+            {
+                var findUser = await userService.FindByIdAsync(uid);
+
+                if (findUser == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                List<ResourceUsing> list = await ResourceUsingService.getByUid(uid);
+
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

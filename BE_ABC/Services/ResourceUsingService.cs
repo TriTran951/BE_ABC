@@ -17,7 +17,7 @@ namespace BE_ABC.Services
         }
         public async Task<(bool check, string err)> checkInsert(ResourceUsingReq req)
         {
-            var findType = await db.Resource.FindAsync(req.resourceId);
+            var findType = await db.Resource.Where(u=>u.id == req.resourceId).FirstOrDefaultAsync();
             if (findType == null)
             {
                 return (false, $"resourceId id={req.resourceId} not exist");

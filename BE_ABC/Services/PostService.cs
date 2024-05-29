@@ -83,12 +83,22 @@ namespace BE_ABC.Services
 
             return (true, "Ok");
         }
+        internal async Task<List<Post>> getByUid(string uid)
+        {
+            var post = db.Post.Where(u => u.creatorUid == uid)
+                .Include(u => u.User)
+                .Include(u => u.PostType)
+                .Include(u => u.Event)
+                .ToList();
 
+            return post;
+        }
         internal async Task<Post> get(int req)
         {
             var user = db.Post
             .Where(u => u.id == req)
             .Include(u => u.User)
+            .Include(u => u.PostType)
             .Include(u => u.Event)
             .FirstOrDefault();
 
@@ -105,6 +115,8 @@ namespace BE_ABC.Services
 
             return user;
         }
+
+
 
         internal async Task<Post> insert(PostReq req)
         {

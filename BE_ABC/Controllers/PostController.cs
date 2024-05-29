@@ -13,9 +13,11 @@ namespace BE_ABC.Controllers
     public class PostController : Controller
     {
         private readonly PostService postService;
-        public PostController(PostService postService)
+        private readonly UserService userService;
+        public PostController(PostService postService, UserService userService)
         {
             this.postService = postService;
+            this.userService = userService; 
         }
         [HttpPost]
         [Route("getAll")]
@@ -121,6 +123,28 @@ namespace BE_ABC.Controllers
                 }
 
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet]
+        [Route("getAllByUid")]
+        public async Task<IActionResult> getBylist(string uid)
+        {
+            try
+            {
+                var findUser = await userService.FindByIdAsync(uid);
+
+                if (findUser == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                List<Post> list = await postService.getByUid(uid);
+
+                return Ok(list);
             }
             catch (Exception ex)
             {

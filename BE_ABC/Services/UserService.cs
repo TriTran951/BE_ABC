@@ -42,7 +42,7 @@ namespace BE_ABC.Services
                 findUser.departmentId = user.departmentId;
                 findUser.grade = user.grade;
                 findUser.username = user.username;
-                findUser.birthday = findUser.birthday;
+                findUser.birthday = user.birthday;
                 findUser.email = user.email;
                 findUser.avatar = user.avatar;
                 findUser.description = user.description;

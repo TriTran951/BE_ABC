@@ -15,15 +15,29 @@ namespace BE_ABC.Controllers
         }
        
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(List<IFormFile> files)
         {
-            if (file == null || file.Length == 0)
-                return BadRequest("File not selected");
+            foreach (var file in files)
+            {
+                if (file == null || file.Length == 0)
+                    return BadRequest("File not selected");
+            }
 
-            var (fileId, webViewLink, webContentLink) = await _googleDriveService.UploadFileAsync(file);
+            List<dynamic> dataReturn = new List<dynamic>;
+            foreach (var file in files)
+            {
+                var (fileId, webViewLink, webContentLink) = await _googleDriveService.UploadFileAsync(file);
 
-            if (string.IsNullOrEmpty(fileId))
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error uploading file");
+                dataReturn.Add(new
+                {
+                    fileName = file.FileName,
+                    id = fileId
+                });
+
+                if (string.IsNullOrEmpty(fileId))
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error uploading file");
+
+            }
 
             return Ok(new
             {

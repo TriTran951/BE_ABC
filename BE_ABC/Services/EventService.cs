@@ -5,6 +5,7 @@ using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,16 @@ namespace BE_ABC.Services
         {
         }
 
+        public async Task<Event> getById(int id)
+        {
+            var item = await db.Set<Event>()
+                          .Include(e => e.EventType)
+                          .Include(e => e.User)
+                          .FirstOrDefaultAsync(e => e.id == id);  // Use FirstOrDefaultAsync for async operation
+
+            return item;
+        }
+
         public List<Event> getAll(Pagination page)
         {
             // Ensure page number is not less than 1
@@ -27,7 +38,12 @@ namespace BE_ABC.Services
             if (page.limit < 1)
                 page.limit = 1;
 
-            var events = db.Event.Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+            var events = db.Event
+                 .Include(e => e.EventType) 
+                 .Include(e => e.User)
+                 .Skip((page.page - 1) * page.limit)
+                 .Take(page.limit)
+                 .ToList();
             return events;
         }
 

@@ -26,7 +26,7 @@ namespace BE_ABC.Controllers
                 List<Event> list = new List<Event>();
                 foreach (var req in uid)
                 {
-                    var find = await eventService.FindByIdAsync(req);
+                    var find = await eventService.getById(req);
                     if (find != null)
                     {
                         list.Add(find);

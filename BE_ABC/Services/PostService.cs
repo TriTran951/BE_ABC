@@ -1,6 +1,7 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.Context;
 using BE_ABC.Models.DTO.Request;
+using BE_ABC.Models.DTO.updateReq;
 using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
@@ -51,7 +52,7 @@ namespace BE_ABC.Services
             return (true, "");
         }
 
-        internal async Task<(bool, string)> checkUpdate(Post req)
+        internal async Task<(bool, string)> checkUpdate(PostUpdate req)
         {
             var findPost = await db.Post.FindAsync(req.id);
             if (findPost == null)
@@ -131,7 +132,7 @@ namespace BE_ABC.Services
             return entityEntry.Entity;
         }
 
-        internal async Task update(Post req)
+        internal async Task update(PostUpdate req)
         {
             var findUser = await db.Post.FindAsync(req.id);
             if (findUser != null)

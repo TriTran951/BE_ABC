@@ -1,5 +1,6 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.DTO.Request;
+using BE_ABC.Models.DTO.updateReq;
 using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
@@ -84,7 +85,7 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<Post> pt)
+        public async Task<IActionResult> update(List<PostUpdate> pt)
         {
             try
             {

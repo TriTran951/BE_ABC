@@ -24,19 +24,14 @@ namespace BE_ABC.Models.ErdModels
         public int decidedAt { get; set; }
         [Column(TypeName = "text")]
         public string? decisionDetail { get; set; }
-        [JsonIgnore]
         public int createAt { get; set; }
-        [JsonIgnore]
         public int updateAt { get; set; }
         public StatusType status { get; set; }
         [ForeignKey("requesterUid")]
-        [JsonIgnore]
         public User Requester { get; set; }
         [ForeignKey("reporterUid")]
-        [JsonIgnore]
         public User Reporter { get; set; }
         [ForeignKey("requestType")]
-        [JsonIgnore]
         public RequestType RequestType { get; set; }
     }
 }

@@ -14,16 +14,12 @@ namespace BE_ABC.Models.ErdModels
         public string documentTypeId { get; set; }
         public string creatorUid { get; set; }
         public string file { get; set; }
-        [JsonIgnore]
         public int createAt { get; set; }
-        [JsonIgnore]
         public int updateAt { get; set; }
         public StatusType status { get; set; }
         [ForeignKey("documentTypeId")]
-        [JsonIgnore]
         public DocumentType DocumentType { get; set; }
         [ForeignKey("creatorUid")]
-        [JsonIgnore]
         public User User { get; set; }
     }
 }

@@ -18,16 +18,12 @@ namespace BE_ABC.Models.ErdModel
         [Column(TypeName = "text")]
         public string description { get; set; }
         public bool isFree { get; set; }
-        [JsonIgnore]
         public int createAt { get; set; }
-        [JsonIgnore]
         public int updateAt { get; set; }
         public StatusType status { get; set; }
 
         [ForeignKey("resourceTypeId")]
-        [JsonIgnore]
         public ResourceType ResourceType { get; set; }
-        [JsonIgnore]
         public virtual ICollection<ResourceUsing> ResourceUsing { get; set; }
     }
 }

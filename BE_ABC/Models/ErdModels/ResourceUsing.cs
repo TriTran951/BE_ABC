@@ -17,19 +17,14 @@ namespace BE_ABC.Models.ErdModels
         public string borrowerUid { get; set; }
         public int startAt { get; set; }
         public int endAt { get; set; }
-        [JsonIgnore]
         public int createAt { get; set; }
-        [JsonIgnore]
         public int updateAt { get; set; }
         public StatusType status { get; set; }
         [ForeignKey("reporterUid")]
-        [JsonIgnore]
         public User Reporter { get; set; }
         [ForeignKey("borrowerUid")]
-        [JsonIgnore]
         public User Borrower { get; set; }
         [ForeignKey("resourceId")]
-        [JsonIgnore]
         public Resource Resource { get; set; }
         
     }

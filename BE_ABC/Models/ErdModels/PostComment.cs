@@ -22,10 +22,8 @@ namespace BE_ABC.Models.ErdModel
         public int updateAt { get; set; }
         public StatusType status { get; set; }
         [ForeignKey("postId")]
-        [JsonIgnore]
         public Post Post { get; set; }
         [ForeignKey("userId")]
-        [JsonIgnore]
         public User User { get; set; }
     }
 }

@@ -15,14 +15,11 @@ namespace BE_ABC.Models.ErdModel
         public string directorUid { get; set; }
         public string name {  get; set; }
         public List<Grade> permissionIdToCRUD { get; set; }
-        [JsonIgnore]
         public int createAt { get; set; }
-        [JsonIgnore]
         public int updateAt { get; set; }
         public StatusType status { get; set; }
 
         [ForeignKey("directorUid")]
-        [JsonIgnore]
         public User User { get; set; }
     }
 }

@@ -15,9 +15,7 @@ namespace BE_ABC.Models.ErdModel
         public string description { get; set; } 
         public List<Grade> permissionIdToCRUDPost { get; set; }
         public List<Grade> permissionIdToCRUD { get; set; }
-        [JsonIgnore]
         public int createAt { get; set; }
-        [JsonIgnore]
         public int updateAt { get; set; }
         public StatusType status { get; set; }
     }

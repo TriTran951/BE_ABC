@@ -83,18 +83,25 @@ namespace BE_ABC.Services
             return (true, "Ok");
         }
 
+        internal async Task<Post> get(int req)
+        {
+            var user = db.Post
+            .Where(u => u.id == req)
+            .Include(u => u.User)
+            .Include(u => u.Event)
+            .FirstOrDefault();
+
+            return user;
+        }
+
         internal List<Post> getAll(Pagination page)
         {
             var user = db.Post
-                .Include(u => u.User)
-                .Include(u => u.Event)
-                .Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
-            if (user != null)
-            {
-                return user;
-            }
-            else
-                return new List<Post> { };
+            .Include(u => u.User)
+            .Include(u => u.Event)
+            .Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+
+            return user;
         }
 
         internal async Task<Post> insert(PostReq req)
@@ -104,7 +111,7 @@ namespace BE_ABC.Services
             newPost.postTypeId = req.postTypeId;
             newPost.creatorUid = req.creatorUid;
             newPost.eventId = req.eventId;
-            newPost.mentionUid = newPost.mentionUid;
+            newPost.mentionUid = req.mentionUid;
             newPost.title = req.title;
             newPost.content = req.content;
             newPost.images = req.images ?? [];

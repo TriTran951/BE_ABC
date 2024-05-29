@@ -15,6 +15,7 @@ using Google.Apis.Drive.v3;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using BE_ABC.Services.StorageService;
+using BE_ABC.Models.ErdModels;
 
 
 Log.Logger = new LoggerConfiguration()
@@ -57,6 +58,7 @@ try
         services.AddScoped<PostService, PostService>();
         services.AddScoped<ResourceTypeService, ResourceTypeService>();
         services.AddScoped<ResourceService, ResourceService>();
+        services.AddScoped<ResourceUsingService, ResourceUsingService>();
 
         services.AddSingleton<DriveService>(sp =>
         {

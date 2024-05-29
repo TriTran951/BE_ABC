@@ -99,6 +99,7 @@ namespace BE_ABC.Services
             var user = db.Post
             .Include(u => u.User)
             .Include(u => u.Event)
+            .Include(u => u.PostType)
             .Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
 
             return user;

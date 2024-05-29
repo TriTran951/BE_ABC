@@ -29,13 +29,10 @@ namespace BE_ABC.Models.ErdModel
         public int updateAt { get; set; }
         public StatusType status { get; set; }
         [ForeignKey("postTypeId")]
-        [JsonIgnore]
         public PostType PostType { get; set; }
         [ForeignKey("creatorUid")]
-        [JsonIgnore]
         public User User { get; set; }
         [ForeignKey("eventId")]
-        [JsonIgnore]
         public Event Event { get; set; }
     }
 }

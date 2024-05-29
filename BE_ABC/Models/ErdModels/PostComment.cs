@@ -2,6 +2,7 @@
 using BE_ABC.Models.ErdModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BE_ABC.Models.ErdModel
 {
@@ -20,9 +21,11 @@ namespace BE_ABC.Models.ErdModel
         public int createAt { get; set; }
         public int updateAt { get; set; }
         public StatusType status { get; set; }
-        [ForeignKey("postId")]   
+        [ForeignKey("postId")]
+        [JsonIgnore]
         public Post Post { get; set; }
         [ForeignKey("userId")]
+        [JsonIgnore]
         public User User { get; set; }
     }
 }

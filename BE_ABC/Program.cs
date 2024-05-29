@@ -59,6 +59,7 @@ try
         services.AddScoped<ResourceTypeService, ResourceTypeService>();
         services.AddScoped<ResourceService, ResourceService>();
         services.AddScoped<ResourceUsingService, ResourceUsingService>();
+        services.AddScoped<EventService, EventService>();
 
         services.AddSingleton<DriveService>(sp =>
         {

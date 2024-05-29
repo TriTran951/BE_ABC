@@ -9,6 +9,7 @@ namespace BE_ABC.Models.DTO.Request
     {
         public string resourceTypeId { get; set; }
         public string name { get; set; }
+        public List<string> images { get; set; }
         public string description { get; set; }
         public bool isFree { get; set; }
         public StatusType status { get; set; }

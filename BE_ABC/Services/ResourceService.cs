@@ -59,6 +59,7 @@ namespace BE_ABC.Services
         {
             Resource pt = new Resource();
             pt.name = req.name;
+            pt.images = req.images;
             pt.description = req.description;
             pt.isFree = req.isFree;
             pt.createAt = DateTimeExtensions.getUxixTimeNow();
@@ -82,6 +83,7 @@ namespace BE_ABC.Services
                 findPosType.name = req.name;
                 findPosType.description = req.description;
                 findPosType.name = req.name;
+                findPosType.images = req.images;
                 findPosType.isFree = req.isFree;
                 findPosType.updateAt = DateTimeExtensions.getUxixTimeNow();
                 findPosType.status = req.status;

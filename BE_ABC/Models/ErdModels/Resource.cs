@@ -2,6 +2,7 @@
 using BE_ABC.Models.ErdModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BE_ABC.Models.ErdModel
 {
@@ -12,16 +13,21 @@ namespace BE_ABC.Models.ErdModel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public string resourceTypeId { get; set; }
+        public List<string> images { get; set; }
         public string name { get; set; }
         [Column(TypeName = "text")]
         public string description { get; set; }
         public bool isFree { get; set; }
+        [JsonIgnore]
         public int createAt { get; set; }
+        [JsonIgnore]
         public int updateAt { get; set; }
         public StatusType status { get; set; }
 
         [ForeignKey("resourceTypeId")]
+        [JsonIgnore]
         public ResourceType ResourceType { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ResourceUsing> ResourceUsing { get; set; }
     }
 }

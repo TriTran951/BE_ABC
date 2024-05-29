@@ -2,6 +2,7 @@
 using BE_ABC.Models.ErdModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BE_ABC.Models.ErdModels
 {
@@ -16,7 +17,9 @@ namespace BE_ABC.Models.ErdModels
         public List<Grade> permissionIdToCRUDResourceUsing { get; set; }
         public List<Grade> permissionIdToCRUDResource { get; set; }
         public List<Grade> permissionIdToCRUD { get; set; }
+        [JsonIgnore]
         public int createAt { get; set; }
+        [JsonIgnore]
         public int updateAt { get; set; }
         public StatusType status { get; set; }
 

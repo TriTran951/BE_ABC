@@ -1,9 +1,8 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.Context;
+using BE_ABC.Models.DTO.insertReq;
 using BE_ABC.Models.DTO.Request;
-using BE_ABC.Models.DTO.updateReq;
 using BE_ABC.Models.ErdModel;
-using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
 using Microsoft.EntityFrameworkCore;
@@ -165,6 +164,27 @@ namespace BE_ABC.Services
 
                 await db.SaveChangesAsync();
             }
+        }
+
+        public List<Post> search(SearchReq page)
+        {
+            // Ensure page number is not less than 1
+            if (page.page < 1)
+                page.page = 1;
+
+            // Ensure limit is not less than 1
+            if (page.limit < 1)
+                page.limit = 1;
+
+            var items = db.Post
+                 .Where(e => e.title.Contains(page.text) || e.content.Contains(page.text))
+                 .Include(e => e.Event)
+                 .Include(e => e.User)
+                 .Include(e => e.PostType)
+                 .Skip((page.page - 1) * page.limit)
+                 .Take(page.limit)
+                 .ToList();
+            return items;
         }
     }
 }

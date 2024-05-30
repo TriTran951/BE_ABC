@@ -10,7 +10,7 @@ namespace BE_ABC.Models.DTO.Request
         public int id { get; set; }
         public string eventTypeId { get; set; }
         public string reporterUid { get; set; }
-        public List<int> resouceUsingId { get; set; }
+        public int? resourceId { get; set; }
         public List<int> postsId { get; set; }
         public List<string> paticipantsUid { get; set; }
         public List<Grade> permissionIdToCRUDPost { get; set; }
@@ -26,7 +26,7 @@ namespace BE_ABC.Models.DTO.Request
     { 
         public string eventTypeId { get; set; }
         public string reporterUid { get; set; }
-        public List<int> resouceUsingId { get; set; }
+        public int? resourceId { get; set; }
         public List<int> postsId { get; set; }
         public List<string> paticipantsUid { get; set; }
         public List<Grade> permissionIdToCRUDPost { get; set; }

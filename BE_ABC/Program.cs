@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using BE_ABC.Middlewares;
 using BE_ABC.Services;
 using BE_ABC.Services.GenericService;
-using BE_ABC.Models.ErdModel;
 using Google.Apis.Drive.v3;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using BE_ABC.Services.StorageService;
-using BE_ABC.Models.ErdModels;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
 
 Log.Logger = new LoggerConfiguration()
@@ -60,6 +60,13 @@ try
         services.AddScoped<ResourceService, ResourceService>();
         services.AddScoped<ResourceUsingService, ResourceUsingService>();
         services.AddScoped<EventService, EventService>();
+        services.AddScoped<RequestService, RequestService>();
+
+        //validate
+        //services.AddFluentValidationAutoValidation()
+        //        .AddFluentValidationClientsideAdapters();
+        //services.AddValidatorsFromAssemblyContaining<PaginationValidator>();
+
 
         services.AddSingleton<DriveService>(sp =>
         {

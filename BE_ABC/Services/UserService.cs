@@ -1,7 +1,9 @@
 ﻿using BE_ABC.ConstValue;
 using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.Context;
+using BE_ABC.Models.DTO.insertReq;
 using BE_ABC.Models.DTO.Request;
+using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
@@ -119,6 +121,23 @@ namespace BE_ABC.Services
             return (true, "Ok");
         }
 
+        public List<User> search(SearchReq page)
+        {
+            // Ensure page number is not less than 1
+            if (page.page < 1)
+                page.page = 1;
 
+            // Ensure limit is not less than 1
+            if (page.limit < 1)
+                page.limit = 1;
+
+            var items = db.User
+                 .Where(e => e.username.Contains(page.text) || e.description.Contains(page.text))
+                 .Include(e => e.Department)
+                 .Skip((page.page - 1) * page.limit)
+                 .Take(page.limit)
+                 .ToList();
+            return items;
+        }
     }
 }

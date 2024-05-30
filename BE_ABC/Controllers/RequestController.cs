@@ -1,6 +1,5 @@
 ﻿using BE_ABC.Models.CommonModels;
-using BE_ABC.Models.DTO.insertReq;
-using BE_ABC.Models.DTO.Request;
+using BE_ABC.Models.DTO.Req;
 using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
@@ -10,22 +9,22 @@ namespace BE_ABC.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PostController : Controller
+    public class RequestController : Controller
     {
-        private readonly PostService postService;
-        private readonly UserService userService;
-        public PostController(PostService postService, UserService userService)
+        private readonly RequestService RequestService;
+        private readonly UserService UserService;
+        public RequestController(RequestService RequestService, UserService UserService)
         {
-            this.postService = postService;
-            this.userService = userService; 
+            this.RequestService = RequestService;
+            this.UserService = UserService;
         }
         [HttpPost]
         [Route("getAll")]
-        public IActionResult getAll(Pagination pagination)
+        public IActionResult getAll([FromBody] Pagination pagination)
         {
             try
             {
-                return Ok(postService.getAll(pagination));
+                return Ok(RequestService.getAll(pagination));
             }
             catch (Exception ex)
             {
@@ -38,10 +37,10 @@ namespace BE_ABC.Controllers
         {
             try
             {
-                List<Post> list = new List<Post>();
+                List<Request> list = new List<Request>();
                 foreach (var req in uid)
                 {
-                    var find = await postService.get(req);
+                    var find = await RequestService.get(req);
                     if (find != null)
                     {
                         list.Add(find);
@@ -58,23 +57,23 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<PostReq> ptReq)
+        public async Task<IActionResult> insert(List<RequestCreateReq> ptReq)
         {
             try
             {
                 foreach (var req in ptReq)
                 {
-                    var (check, err) = await postService.checkInsertPost(req);
+                    var (check, err) = await RequestService.checkInsertPost(req);
                     if (!check)
                     {
                         return BadRequest(err);
                     }
                 }
 
-                var listInsertedUser = new List<Post>();
+                var listInsertedUser = new List<Request>();
                 foreach (var req in ptReq)
                 {
-                    var entity = await postService.insert(req);
+                    var entity = await RequestService.insert(req);
                     listInsertedUser.Add(entity);
                 }
 
@@ -87,19 +86,19 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<PostUpdate> pt)
+        public async Task<IActionResult> update(List<RequestReq> pt)
         {
             try
             {
                 foreach (var req in pt)
                 {
-                    await postService.checkUpdate(req);
+                    await RequestService.checkUpdate(req);
                 }
 
 
                 foreach (var req in pt)
                 {
-                    await postService.update(req);
+                    await RequestService.update(req);
                 }
 
                 return NoContent();
@@ -117,9 +116,9 @@ namespace BE_ABC.Controllers
             {
                 foreach (var req in id)
                 {
-                    var find = await postService.FindByIdAsync(req);
+                    var find = await RequestService.FindByIdAsync(req);
                     if (find != null)
-                        await postService.DeleteAsync(find);
+                        await RequestService.DeleteAsync(find);
                 }
 
                 return NoContent();
@@ -130,35 +129,21 @@ namespace BE_ABC.Controllers
             }
         }
         [HttpGet]
-        [Route("getAllByUid")]
+        [Route("getAllByRequesterUid")]
         public async Task<IActionResult> getBylist(string uid)
         {
             try
             {
-                var findUser = await userService.FindByIdAsync(uid);
+                var findUser = await UserService.FindByIdAsync(uid);
 
                 if (findUser == null)
                 {
                     return BadRequest("User not found");
                 }
 
-                List<Post> list = await postService.getByUid(uid);
+                List<Request> list = await RequestService.getByUid(uid);
 
                 return Ok(list);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("search")]
-        public IActionResult search(SearchReq req)
-        {
-            try
-            {
-                return Ok(postService.search(req));
             }
             catch (Exception ex)
             {

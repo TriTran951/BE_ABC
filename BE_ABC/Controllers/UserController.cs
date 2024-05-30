@@ -1,4 +1,5 @@
 ﻿using BE_ABC.Models.CommonModels;
+using BE_ABC.Models.DTO.insertReq;
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
@@ -122,6 +123,20 @@ namespace BE_ABC.Controllers
                 }    
 
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("search")]
+        public IActionResult search(SearchReq req)
+        {
+            try
+            {
+                return Ok(userService.search(req));
             }
             catch (Exception ex)
             {

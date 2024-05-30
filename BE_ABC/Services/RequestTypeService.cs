@@ -5,6 +5,7 @@ using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
+using Microsoft.EntityFrameworkCore;
 
 namespace BE_ABC.Services
 {
@@ -13,9 +14,15 @@ namespace BE_ABC.Services
         public RequestTypeService(MyDbContext context) : base(context)
         {
         }
+        internal async Task<RequestType?> get(string req)
+        {
+            var user = db.RequestType.Where(u=>u.id == req).Include(u => u.Department).FirstOrDefault();
+
+            return user;
+        }
         public List<RequestType> getAll(Pagination page)
         {
-            var user = db.RequestType.Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+            var user = db.RequestType.Include(u=>u.Department).Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
             if (user != null)
             {
                 return user;
@@ -83,5 +90,7 @@ namespace BE_ABC.Services
                 await db.SaveChangesAsync();
             }
         }
+
+
     }
 }

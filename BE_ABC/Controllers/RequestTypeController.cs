@@ -38,7 +38,7 @@ namespace BE_ABC.Controllers
                 List<RequestType> list = new List<RequestType>();
                 foreach (var req in id)
                 {
-                    var find = await RequestTypeService.FindByIdAsync(req);
+                    var find = await RequestTypeService.get(req);
                     if (find != null)
                     {
                         list.Add(find);
@@ -102,7 +102,7 @@ namespace BE_ABC.Controllers
         }
         [HttpDelete]
         [Route("")]
-        public async Task<IActionResult> hardDelete(List<int> uid)
+        public async Task<IActionResult> hardDelete(List<string> uid)
         {
             try
             {

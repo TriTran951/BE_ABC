@@ -30,14 +30,14 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("get")]
-        public async Task<IActionResult> getBylist(List<string> uid)
+        public async Task<IActionResult> getBylist(List<int> uid)
         {
             try
             {
                 List<PostComment> list = new List<PostComment>();
                 foreach (var req in uid)
                 {
-                    var find = await postCommentService.FindByIdAsync(req);
+                    var find = await postCommentService.get(req);
                     if (find != null)
                     {
                         list.Add(find);

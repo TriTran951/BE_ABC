@@ -4,6 +4,7 @@ using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
+using Microsoft.EntityFrameworkCore;
 
 namespace BE_ABC.Services
 {
@@ -58,9 +59,16 @@ namespace BE_ABC.Services
             return (true, "");
         }
 
+        internal async Task<PostComment?> get(int req)
+        {
+            var user = db.PostComment.Where(u => u.id == req).Include(u => u.User).FirstOrDefault();
+
+            return user;
+        }
+
         internal List<PostComment> getAll(Pagination page)
         {
-            var user = db.PostComment.Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+            var user = db.PostComment.Include(u => u.User).Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
             if (user != null)
             {
                 return user;

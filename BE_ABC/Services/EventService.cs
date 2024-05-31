@@ -152,5 +152,16 @@ namespace BE_ABC.Services
                  .ToList();
             return events;
         }
+
+        internal async Task<List<Event>> getListByUid(string uid)
+        {
+            var @event = db.Event.Where(u => u.reporterUid == uid)
+                        .Include(e => e.EventType)
+                        .Include(e => e.User)
+                        .Include(e => e.Resource)
+                        .ToList();
+
+            return @event;
+        }
     }
 }

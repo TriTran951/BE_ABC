@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.DTO.insertReq;
 using BE_ABC.Models.DTO.Request;
+using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,11 @@ namespace BE_ABC.Controllers
     public class EventController : Controller
     {
         EventService eventService;
-        public EventController(EventService _eventService)
+        private readonly UserService userService;
+        public EventController(EventService _eventService, UserService userService)
         {
             eventService = _eventService;
+            this.userService = userService;
         }
         [HttpPost]
         [Route("get")]
@@ -148,6 +151,28 @@ namespace BE_ABC.Controllers
             try
             {
                 return Ok(eventService.today());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet]
+        [Route("getAllByUid")]
+        public async Task<IActionResult> getBylist(string uid)
+        {
+            try
+            {
+                var findUser = await userService.FindByIdAsync(uid);
+
+                if (findUser == null)
+                {
+                    return BadRequest("User not found");
+                }
+
+                List<Event> list = await eventService.getListByUid(uid);
+
+                return Ok(list);
             }
             catch (Exception ex)
             {

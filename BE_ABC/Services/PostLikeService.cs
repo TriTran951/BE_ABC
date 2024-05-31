@@ -12,7 +12,7 @@ namespace BE_ABC.Services
         public PostLikeService(MyDbContext context) : base(context)
         {
         }
-        internal async Task<(bool check, string err)> checkInsert(PostLikeReq req)
+        internal async Task<(bool check, string err)> checkInsert(PostLikeCreateReq req)
         {
             var findUser = await db.User.FindAsync(req.userId);
 
@@ -31,7 +31,7 @@ namespace BE_ABC.Services
             return (true, "");
         }
 
-        internal async Task<(bool check, string err)> checkUpdate(PostLike req)
+        internal async Task<(bool check, string err)> checkUpdate(PostLikeReq req)
         {
             var findComment = await db.PostLike.FindAsync(req.id);
 
@@ -68,7 +68,7 @@ namespace BE_ABC.Services
                 return new List<PostLike> { };
         }
 
-        internal async Task<PostLike> insert(PostLikeReq req)
+        internal async Task<PostLike> insert(PostLikeCreateReq req)
         {
             var newComment = new PostLike();
             newComment.userId = req.userId;
@@ -91,7 +91,7 @@ namespace BE_ABC.Services
 
             return entityEntry.Entity;
         }
-        internal async Task update(PostLike req)
+        internal async Task update(PostLikeReq req)
         {
             var findUser = await db.PostLike.FindAsync(req.id);
             if (findUser != null)

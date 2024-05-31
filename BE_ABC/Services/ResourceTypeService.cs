@@ -1,11 +1,9 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.Context;
 using BE_ABC.Models.DTO.Request;
-using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace BE_ABC.Services
@@ -27,7 +25,7 @@ namespace BE_ABC.Services
             return (true, "");
         }
 
-        internal async Task<(bool, string)> checkUpdate(ResourceType req)
+        internal async Task<(bool, string)> checkUpdate(ResourceTypeReq req)
         {
             var findType = await db.ResourceType.FindAsync(req.id);
             if (findType == null)
@@ -72,7 +70,7 @@ namespace BE_ABC.Services
             return entityEntry.Entity;
         }
 
-        internal async Task update(ResourceType req)
+        internal async Task update(ResourceTypeReq req)
         {
             var newPost = await db.ResourceType.FindAsync(req.id);
             if (newPost != null)

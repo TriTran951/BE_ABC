@@ -2,7 +2,6 @@
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
 using BE_ABC.Services;
-using BE_ABC.Util;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BE_ABC.Controllers
@@ -55,7 +54,7 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<PostCommentReq> ptReq)
+        public async Task<IActionResult> insert(List<PostCommentCreateReq> ptReq)
         {
             try
             {
@@ -86,7 +85,7 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<PostComment> pt)
+        public async Task<IActionResult> update(List<PostCommentReq> pt)
         {
             try
             {
@@ -98,8 +97,7 @@ namespace BE_ABC.Controllers
 
                 foreach (var req in pt)
                 {
-                    req.updateAt = DateTimeExtensions.getUxixTimeNow();
-                    await postCommentService.UpdateAsync(req);
+                    await postCommentService.update(req);
                 }
 
                 return NoContent();

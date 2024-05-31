@@ -15,9 +15,9 @@ namespace BE_ABC.Services
         {
 
         }
-        public async Task<(bool check, string err)> checkInsert(ResourceUsingReq req)
+        public async Task<(bool check, string err)> checkInsert(ResourceUsingCreateReq req)
         {
-            var findType = await db.Resource.Where(u=>u.id == req.resourceId).FirstOrDefaultAsync();
+            var findType = await db.Resource.Where(u => u.id == req.resourceId).FirstOrDefaultAsync();
             if (findType == null)
             {
                 return (false, $"resourceId id={req.resourceId} not exist");
@@ -35,7 +35,7 @@ namespace BE_ABC.Services
                 return (false, $"reporterUid id={req.borrowerUid} not exist");
             }
 
-            if(req.startAt >= req.endAt)
+            if (req.startAt >= req.endAt)
             {
                 return (false, $"startAt must less than endAt  not exist");
             }
@@ -43,7 +43,7 @@ namespace BE_ABC.Services
             return (true, "");
         }
 
-        public async Task<(bool check, string err)> checkUpdate(ResourceUsing req)
+        public async Task<(bool check, string err)> checkUpdate(ResourceUsingReq req)
         {
             var findResouce = await db.ResourceUsing.FindAsync(req.id);
             if (findResouce == null)
@@ -89,9 +89,9 @@ namespace BE_ABC.Services
         public List<ResourceUsing> getAll(Pagination page)
         {
             var user = db.ResourceUsing
-                .Include(u=>u.Reporter)
-                .Include(u=>u.Borrower)
-                .Include(u=>u.Resource)
+                .Include(u => u.Reporter)
+                .Include(u => u.Borrower)
+                .Include(u => u.Resource)
                 .Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
             if (user != null)
             {
@@ -101,7 +101,7 @@ namespace BE_ABC.Services
                 return new List<ResourceUsing>();
         }
 
-        public async Task<ResourceUsing> insert(ResourceUsingReq req)
+        public async Task<ResourceUsing> insert(ResourceUsingCreateReq req)
         {
             ResourceUsing pt = new ResourceUsing();
             pt.resourceId = req.resourceId;
@@ -121,7 +121,7 @@ namespace BE_ABC.Services
             return entityEntry.Entity;
         }
 
-        public async Task update(ResourceUsing req)
+        public async Task update(ResourceUsingReq req)
         {
             var findPosType = await db.ResourceUsing.FindAsync(req.id);
 

@@ -13,7 +13,7 @@ namespace BE_ABC.Services
         {
         }
 
-        internal async Task<(bool check, string err)> checkInsert(PostCommentReq req)
+        internal async Task<(bool check, string err)> checkInsert(PostCommentCreateReq req)
         {
             var findUser = await db.User.FindAsync(req.userId);
 
@@ -32,7 +32,7 @@ namespace BE_ABC.Services
             return (true, "");
         }
 
-        internal async Task<(bool check, string err)> checkUpdate(PostComment req)
+        internal async Task<(bool check, string err)> checkUpdate(PostCommentReq req)
         {
             var findComment = await db.PostComment.FindAsync(req.id);
 
@@ -69,7 +69,7 @@ namespace BE_ABC.Services
                 return new List<PostComment> { };
         }
 
-        internal async Task<PostComment> insert(PostCommentReq req)
+        internal async Task<PostComment> insert(PostCommentCreateReq req)
         {
             var newComment = new PostComment();
             newComment.userId = req.userId;
@@ -94,6 +94,26 @@ namespace BE_ABC.Services
             await db.SaveChangesAsync();
 
             return entityEntry.Entity;
+        }
+
+        internal async Task update(PostCommentReq req)
+        {
+            var findUser = await db.PostComment.FindAsync(req.id);
+            if (findUser != null)
+            {
+                findUser.id = req.id;
+                findUser.userId = req.userId;
+                findUser.postId = req.postId;
+                findUser.content = req.content;
+                findUser.images = req.images;
+                findUser.file = req.file;
+                findUser.updateAt = DateTimeExtensions.getUxixTimeNow();
+                findUser.status = req.status;
+
+                db.Set<PostComment>().Update(findUser);
+
+                await db.SaveChangesAsync();
+            }
         }
     }
 }

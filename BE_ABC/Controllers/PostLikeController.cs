@@ -54,7 +54,7 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<PostLikeReq> ptReq)
+        public async Task<IActionResult> insert(List<PostLikeCreateReq> ptReq)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<PostLike> pt)
+        public async Task<IActionResult> update(List<PostLikeReq> pt)
         {
             try
             {

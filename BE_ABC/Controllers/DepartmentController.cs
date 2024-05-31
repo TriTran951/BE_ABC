@@ -1,7 +1,6 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
-using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -85,18 +84,18 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<Department> pt)
+        public async Task<IActionResult> update(List<DepartmentReq> pt)
         {
             try
             {
-                //foreach (var req in user)
-                //{
-                //    var (check, err) = await DepartmentService.check(req);
-                //    if (!check)
-                //    {
-                //        return BadRequest(err);
-                //    }
-                //}
+                foreach (var req in pt)
+                {
+                    var (check, err) = await DepartmentService.checkUpdate(req);
+                    if (!check)
+                    {
+                        return BadRequest(err);
+                    }
+                }
 
                 foreach (var req in pt)
                 {

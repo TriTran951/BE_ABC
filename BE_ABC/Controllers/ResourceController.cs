@@ -54,7 +54,7 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<ResourceReq> ptReq)
+        public async Task<IActionResult> insert(List<ResourceCreateReq> ptReq)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<Resource> pt)
+        public async Task<IActionResult> update(List<ResourceReq> pt)
         {
             try
             {
@@ -134,9 +134,9 @@ namespace BE_ABC.Controllers
         {
             try
             {
-   
+
                 var (data, err) = await ResourceService.getResourceByType(resourceId);
-                    
+
                 if (data == null)
                 {
                     return BadRequest(err);

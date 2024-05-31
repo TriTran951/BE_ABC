@@ -1,7 +1,6 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
-using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +10,7 @@ namespace BE_ABC.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     public class PostTypeController : Controller
     {
-        private readonly  PostTypeService postTypeService;
+        private readonly PostTypeService postTypeService;
         public PostTypeController(PostTypeService postTypeService)
         {
             this.postTypeService = postTypeService;
@@ -55,13 +54,13 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<PostTypeReq> ptReq)
+        public async Task<IActionResult> insert(List<PostTypeCreateReq> ptReq)
         {
             try
             {
                 //foreach (var req in ptReq)
                 //{
-                //    var (check, err) = await postTypeService.checkTypeInsert(req);
+                //    var (check, err) = await postTypeService.checkInsert(req);
                 //    if (!check)
                 //    {
                 //        return BadRequest(err);
@@ -84,18 +83,18 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<PostType> pt)
+        public async Task<IActionResult> update(List<PostTypeReq> pt)
         {
             try
             {
-                //foreach (var req in user)
-                //{
-                //    var (check, err) = await postTypeService.checkUpdate(req);
-                //    if (!check)
-                //    {
-                //        return BadRequest(err);
-                //    }
-                //}
+                foreach (var req in pt)
+                {
+                    var (check, err) = await postTypeService.checkUpdate(req);
+                    if (!check)
+                    {
+                        return BadRequest(err);
+                    }
+                }
 
                 foreach (var req in pt)
                 {

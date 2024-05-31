@@ -1,6 +1,5 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.DTO.Request;
-using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +56,7 @@ namespace BE_ABC.Controllers
         }
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> insert(List<ResourceUsingReq> ptReq)
+        public async Task<IActionResult> insert(List<ResourceUsingCreateReq> ptReq)
         {
             try
             {
@@ -86,7 +85,7 @@ namespace BE_ABC.Controllers
         }
         [HttpPut]
         [Route("")]
-        public async Task<IActionResult> update(List<ResourceUsing> pt)
+        public async Task<IActionResult> update(List<ResourceUsingReq> pt)
         {
             try
             {

@@ -2,27 +2,42 @@
 using BE_ABC.Models.Context;
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
-using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
 using Microsoft.EntityFrameworkCore;
 
 namespace BE_ABC.Services
 {
-    public class DepartmentService: GenericService<Department>
+    public class DepartmentService : GenericService<Department>
     {
         public DepartmentService(MyDbContext context) : base(context)
         {
         }
         public List<Department> getAll(Pagination page)
         {
-            var user = db.Department.Include(u=>u.User).Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+            var user = db.Department.Include(u => u.User).Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
             if (user != null)
             {
                 return user;
             }
             else
                 return new List<Department>();
+        }
+        internal async Task<(bool, string)> checkUpdate(DepartmentReq req)
+        {
+            var findPost = await db.Department.FindAsync(req.id);
+            if (findPost == null)
+            {
+                return (false, $"Department {req.id} not found");
+            }
+
+            var findPost1 = await db.User.FindAsync(req.directorUid);
+            if (findPost1 == null)
+            {
+                return (false, $"directorUid {req.directorUid} not found");
+            }
+
+            return (true, "Ok");
         }
         public async Task<(bool, string)> checkInsert(DepartmentReq req)
         {
@@ -61,7 +76,7 @@ namespace BE_ABC.Services
 
             return entityEntry.Entity;
         }
-        public async Task update(Department req)
+        public async Task update(DepartmentReq req)
         {
             var findPosType = await db.Department.FindAsync(req.id);
 

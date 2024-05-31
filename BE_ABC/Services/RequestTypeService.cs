@@ -1,7 +1,6 @@
 ﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.Context;
 using BE_ABC.Models.DTO.Request;
-using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
@@ -16,13 +15,13 @@ namespace BE_ABC.Services
         }
         internal async Task<RequestType?> get(string req)
         {
-            var user = db.RequestType.Where(u=>u.id == req).Include(u => u.Department).FirstOrDefault();
+            var user = db.RequestType.Where(u => u.id == req).Include(u => u.Department).FirstOrDefault();
 
             return user;
         }
         public List<RequestType> getAll(Pagination page)
         {
-            var user = db.RequestType.Include(u=>u.Department).Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+            var user = db.RequestType.Include(u => u.Department).Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
             if (user != null)
             {
                 return user;
@@ -69,7 +68,7 @@ namespace BE_ABC.Services
 
             return entityEntry.Entity;
         }
-        public async Task update(RequestType req)
+        public async Task update(RequestTypeReq req)
         {
             var findPosType = await db.RequestType.FindAsync(req.id);
 

@@ -2,7 +2,6 @@
 using BE_ABC.Models.Context;
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
-using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
 
@@ -13,15 +12,15 @@ namespace BE_ABC.Services
         public PostTypeService(MyDbContext context) : base(context)
         {
         }
-
-        public async Task<(bool check, string err)> checkTypeInsert(PostTypeReq PostTypeReq)
+        public async Task<(bool check, string err)> checkUpdate(PostTypeReq req)
         {
-            throw new NotImplementedException();
-        }
+            var findPost = await db.PostType.FindAsync(req.id);
+            if (findPost == null)
+            {
+                return (false, $"PostType {req.id} not found");
+            }
 
-        public async Task<(bool check, string err)> checkUpdate(UserReq req)
-        {
-            throw new NotImplementedException();
+            return (true, "Ok");
         }
 
         public List<PostType> getAll(Pagination page)
@@ -35,7 +34,7 @@ namespace BE_ABC.Services
                 return new List<PostType>();
         }
 
-        public async Task<PostType > insert(PostTypeReq req)
+        public async Task<PostType> insert(PostTypeCreateReq req)
         {
             PostType pt = new PostType();
             pt.name = req.name;
@@ -54,7 +53,7 @@ namespace BE_ABC.Services
             return entityEntry.Entity;
         }
 
-        public async Task update(PostType req)
+        public async Task update(PostTypeReq req)
         {
             var findPosType = await db.PostType.FindAsync(req.id);
 

@@ -1,5 +1,4 @@
-﻿using BE_ABC.AppSettings;
-using BE_ABC.Models.CommonModels;
+﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.Context;
 using BE_ABC.Models.DTO.Request;
 using BE_ABC.Models.ErdModel;
@@ -16,7 +15,7 @@ namespace BE_ABC.Services
 
         }
 
-        public async Task<(bool check, string err)> checkInsert(ResourceReq req)
+        public async Task<(bool check, string err)> checkInsert(ResourceCreateReq req)
         {
             var findType = await db.ResourceType.FindAsync(req.resourceTypeId);
             if (findType == null)
@@ -27,9 +26,10 @@ namespace BE_ABC.Services
             return (true, "");
         }
 
-        public async Task<(bool check, string err)> checkUpdate(Resource req)
+        public async Task<(bool check, string err)> checkUpdate(ResourceReq req)
         {
-            var findResource = await db.Resource.FindAsync(req.resourceTypeId);
+
+            var findResource = await db.ResourceType.FindAsync(req.resourceTypeId);
             if (findResource == null)
             {
                 return (false, $"ResourceType id={req.resourceTypeId} not exist");
@@ -52,7 +52,7 @@ namespace BE_ABC.Services
         }
         public List<Resource> getAll(Pagination page)
         {
-            var user = db.Resource.Include(u=>u.ResourceType).Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
+            var user = db.Resource.Include(u => u.ResourceType).Skip((page.page - 1) * page.limit).Take(page.limit).ToList();
             if (user != null)
             {
                 return user;
@@ -61,7 +61,7 @@ namespace BE_ABC.Services
                 return new List<Resource>();
         }
 
-        public async Task<Resource> insert(ResourceReq req)
+        public async Task<Resource> insert(ResourceCreateReq req)
         {
             Resource pt = new Resource();
             pt.name = req.name;
@@ -80,7 +80,7 @@ namespace BE_ABC.Services
             return entityEntry.Entity;
         }
 
-        public async Task update(Resource req)
+        public async Task update(ResourceReq req)
         {
             var findPosType = await db.Resource.FindAsync(req.id);
 
@@ -108,7 +108,7 @@ namespace BE_ABC.Services
 
             if (findType == null)
             {
-             
+
                 return (null, $"ResourceType id={resourceId} not exist");
             }
 

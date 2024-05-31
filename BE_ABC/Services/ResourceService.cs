@@ -64,6 +64,7 @@ namespace BE_ABC.Services
         public async Task<Resource> insert(ResourceCreateReq req)
         {
             Resource pt = new Resource();
+            pt.resourceTypeId = req.resourceTypeId;
             pt.name = req.name;
             pt.images = req.images;
             pt.description = req.description;

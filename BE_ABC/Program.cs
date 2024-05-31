@@ -61,6 +61,7 @@ try
         services.AddScoped<ResourceUsingService, ResourceUsingService>();
         services.AddScoped<EventService, EventService>();
         services.AddScoped<RequestService, RequestService>();
+        services.AddScoped<EventTypeService, EventTypeService>();
 
         //validate
         //services.AddFluentValidationAutoValidation()

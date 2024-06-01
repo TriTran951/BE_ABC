@@ -42,7 +42,7 @@ namespace BE_ABC.Services
             var findUser = await db.Department.FindAsync(req.approvalDepartmentId);
             if (findUser == null)
             {
-                return (false, $"Department id={req.approvalDepartmentId} not exist");
+                return (false, $"approvalDepartmentId id={req.approvalDepartmentId} not exist");
             }
 
             return (true, "");

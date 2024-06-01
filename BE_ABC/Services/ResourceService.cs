@@ -28,7 +28,6 @@ namespace BE_ABC.Services
 
         public async Task<(bool check, string err)> checkUpdate(ResourceReq req)
         {
-
             var findResource = await db.ResourceType.FindAsync(req.resourceTypeId);
             if (findResource == null)
             {

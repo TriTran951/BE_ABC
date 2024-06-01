@@ -92,7 +92,10 @@ namespace BE_ABC.Controllers
             {
                 foreach (var req in pt)
                 {
-                    await RequestService.checkUpdate(req);
+                    var (check,err) = await RequestService.checkUpdate(req);
+
+                    if(!check)
+                        return BadRequest(err);
                 }
 
 
@@ -101,7 +104,7 @@ namespace BE_ABC.Controllers
                     await RequestService.update(req);
                 }
 
-                return NoContent();
+                return Ok("ok");
             }
             catch (Exception ex)
             {

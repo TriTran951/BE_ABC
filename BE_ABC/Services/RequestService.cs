@@ -82,7 +82,6 @@ namespace BE_ABC.Services
             var findUser = await db.Request.FindAsync(req.id);
             if (findUser != null)
             {
-                findUser.id = req.id;
                 findUser.requesterUid = req.requesterUid;
                 findUser.requestTypeId = req.requestTypeId;
                 findUser.reporterUid = req.reporterUid;

@@ -12,6 +12,17 @@ namespace BE_ABC.Services
         public PostTypeService(MyDbContext context) : base(context)
         {
         }
+        public async Task<(bool, string)> checkInsert(PostTypeCreateReq req)
+        {
+            var findPost = await db.PostType.FindAsync(req.id);
+            if (findPost != null)
+            {
+                return (false, $"PostType {req.id} exist");
+            }
+
+
+            return (true, "");
+        }
         public async Task<(bool check, string err)> checkUpdate(PostTypeReq req)
         {
             var findPost = await db.PostType.FindAsync(req.id);
@@ -37,6 +48,7 @@ namespace BE_ABC.Services
         public async Task<PostType> insert(PostTypeCreateReq req)
         {
             PostType pt = new PostType();
+            pt.id = req.id;
             pt.name = req.name;
             pt.description = req.description;
             pt.permissionIdToCRUD = req.permissionIdToCRUD;

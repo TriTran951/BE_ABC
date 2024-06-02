@@ -58,14 +58,14 @@ namespace BE_ABC.Controllers
         {
             try
             {
-                //foreach (var req in ptReq)
-                //{
-                //    var (check, err) = await postTypeService.checkInsert(req);
-                //    if (!check)
-                //    {
-                //        return BadRequest(err);
-                //    }
-                //}
+                foreach (var req in ptReq)
+                {
+                    var (check, err) = await postTypeService.checkInsert(req);
+                    if (!check)
+                    {
+                        return BadRequest(err);
+                    }
+                }
 
                 var listInsertedUser = new List<PostType>();
                 foreach (var req in ptReq)

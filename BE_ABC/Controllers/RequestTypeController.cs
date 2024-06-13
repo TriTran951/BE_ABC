@@ -110,6 +110,10 @@ namespace BE_ABC.Controllers
                     var find = await RequestTypeService.FindByIdAsync(req);
                     if (find != null)
                         await RequestTypeService.DeleteAsync(find);
+
+                    else
+                        return BadRequest($"Type not found {req}");
+
                 }
 
                 return Ok("ok");

@@ -119,6 +119,9 @@ namespace BE_ABC.Controllers
                     var find = await ResourceService.FindByIdAsync(req);
                     if (find != null)
                         await ResourceService.DeleteAsync(find);
+                    else
+                        return BadRequest($"Resource not found {req}");
+
                 }
 
                 return Ok("ok");

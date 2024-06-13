@@ -121,7 +121,7 @@ namespace BE_ABC.Controllers
                         await ResourceService.DeleteAsync(find);
                 }
 
-                return NoContent();
+                return Ok("ok");
             }
             catch (Exception ex)
             {

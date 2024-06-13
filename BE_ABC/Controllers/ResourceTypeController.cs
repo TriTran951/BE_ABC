@@ -110,7 +110,7 @@ namespace BE_ABC.Controllers
         }
         [HttpDelete]
         [Route("")]
-        public async Task<IActionResult> hardDelete(List<int> uid)
+        public async Task<IActionResult> hardDelete(List<string> uid)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace BE_ABC.Controllers
                         await ResourceTypeService.DeleteAsync(find);
                 }
 
-                return NoContent();
+                return Ok("ok");
             }
             catch (Exception ex)
             {

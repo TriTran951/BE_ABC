@@ -109,6 +109,8 @@ namespace BE_ABC.Services
             pt.borrowerUid = req.borrowerUid;
             pt.startAt = req.startAt;
             pt.approvalStatus = req.approvalStatus;
+            pt.decidedAt = req.decidedAt;
+            pt.decisionDetail = req.decisionDetail;
             pt.endAt = req.endAt;
             pt.createAt = DateTimeExtensions.getUxixTimeNow();
             pt.updateAt = DateTimeExtensions.getUxixTimeNow();
@@ -135,6 +137,8 @@ namespace BE_ABC.Services
                 findPosType.endAt = req.endAt;
                 findPosType.approvalStatus = req.approvalStatus;
                 findPosType.updateAt = DateTimeExtensions.getUxixTimeNow();
+                findPosType.decidedAt = req.decidedAt;
+                findPosType.decisionDetail = req.decisionDetail;
                 findPosType.status = req.status;
 
                 db.Set<ResourceUsing>().Update(findPosType);

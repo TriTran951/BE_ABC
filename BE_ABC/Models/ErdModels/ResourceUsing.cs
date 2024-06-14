@@ -21,6 +21,10 @@ namespace BE_ABC.Models.ErdModels
         public int updateAt { get; set; }
         [DefaultValue(0)]
         public ApprovalStatus approvalStatus { get; set; }
+        [DefaultValue(0)]
+        public int decidedAt { get; set; }
+        [DefaultValue("")]
+        public string decisionDetail { get; set; }
         public StatusType status { get; set; }
         [ForeignKey("reporterUid")]
         public User Reporter { get; set; }

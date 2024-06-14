@@ -8,6 +8,8 @@ namespace BE_ABC.Models.DTO.Request
         public string reporterUid { get; set; }
         public string borrowerUid { get; set; }
         public ApprovalStatus approvalStatus { get; set; }
+        public int decidedAt { get; set; }
+        public string decisionDetail { get; set; }
         public int startAt { get; set; }
         public int endAt { get; set; }
         public StatusType status { get; set; }
@@ -19,6 +21,8 @@ namespace BE_ABC.Models.DTO.Request
         public string reporterUid { get; set; }
         public string borrowerUid { get; set; }
         public ApprovalStatus approvalStatus { get; set; }
+        public int decidedAt { get; set; }
+        public string decisionDetail { get; set; }
         public int startAt { get; set; }
         public int endAt { get; set; }
         public StatusType status { get; set; }

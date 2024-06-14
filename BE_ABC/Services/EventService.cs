@@ -1,5 +1,4 @@
-﻿using BE_ABC.ConstValue;
-using BE_ABC.Models.CommonModels;
+﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.Context;
 using BE_ABC.Models.DTO.insertReq;
 using BE_ABC.Models.DTO.Request;
@@ -7,10 +6,6 @@ using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 
 namespace BE_ABC.Services
 {
@@ -42,7 +37,7 @@ namespace BE_ABC.Services
                 page.limit = 1;
 
             var events = db.Event
-                 .Include(e => e.EventType) 
+                 .Include(e => e.EventType)
                  .Include(e => e.User)
                  .Include(e => e.Resource)
                  .Skip((page.page - 1) * page.limit)
@@ -118,7 +113,7 @@ namespace BE_ABC.Services
             return newItem;
         }
 
-        public  List<Event> search(SearchReq page)
+        public List<Event> search(SearchReq page)
         {
             // Ensure page number is not less than 1
             if (page.page < 1)
@@ -129,7 +124,7 @@ namespace BE_ABC.Services
                 page.limit = 1;
 
             var events = db.Event
-                 .Where(e => e.name.Contains(page.text)|| e.description.Contains(page.text))
+                 .Where(e => e.name.Contains(page.text) || e.description.Contains(page.text))
                  .Include(e => e.EventType)
                  .Include(e => e.User)
                  .Include(e => e.Resource)
@@ -145,7 +140,7 @@ namespace BE_ABC.Services
             var endOfDay = (int)(DateTime.UtcNow.Date.AddDays(1) - new DateTime(1970, 1, 1)).TotalSeconds;
 
             var events = db.Event
-                 .Where(e => (e.startAt>=startOfDay&&e.startAt<=endOfDay)|| (e.endAt >= startOfDay && e.endAt <= endOfDay))
+                 .Where(e => (e.startAt >= startOfDay && e.startAt <= endOfDay) || (e.endAt >= startOfDay && e.endAt <= endOfDay))
                  .Include(e => e.EventType)
                  .Include(e => e.User)
                  .Include(e => e.Resource)
@@ -162,6 +157,15 @@ namespace BE_ABC.Services
                         .ToList();
 
             return @event;
+        }
+
+        internal async Task<bool> checkDelete(int req)
+        {
+            var check = db.Post.Where(p => p.eventId == req);
+
+            if (check.Count() > 0)
+                return false;
+            return true;
         }
     }
 }

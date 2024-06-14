@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using BE_ABC.Models.CommonModels;
+﻿using BE_ABC.Models.CommonModels;
 using BE_ABC.Models.DTO.insertReq;
 using BE_ABC.Models.DTO.Request;
-using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -67,6 +64,7 @@ namespace BE_ABC.Controllers
             try
             {
                 var listInsertedEvent = new List<Event>();
+
                 foreach (var req in events)
                 {
                     var entity = await eventService.insert(req);
@@ -115,6 +113,13 @@ namespace BE_ABC.Controllers
         {
             try
             {
+                foreach (var req in uid)
+                {
+                    bool check = await eventService.checkDelete(req);
+                    if (!check)
+                        return BadRequest($"Event id={uid} in use");
+                }
+
                 foreach (var req in uid)
                 {
                     var find = await eventService.FindByIdAsync(req);

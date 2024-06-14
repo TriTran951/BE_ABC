@@ -1,6 +1,5 @@
 ﻿using BE_ABC.Models.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BE_ABC.Services.GenericService
 {
@@ -53,7 +52,7 @@ namespace BE_ABC.Services.GenericService
 
             await SaveDatabaseAsync();
         }
-        private async Task SaveDatabaseAsync()
+        public async Task SaveDatabaseAsync()
         {
             await db.SaveChangesAsync();
         }

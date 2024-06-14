@@ -2,6 +2,7 @@
 using BE_ABC.Models.Context;
 using BE_ABC.Models.DTO.insertReq;
 using BE_ABC.Models.DTO.Request;
+using BE_ABC.Models.ErdModel;
 using BE_ABC.Models.ErdModels;
 using BE_ABC.Services.GenericService;
 using BE_ABC.Util;
@@ -166,6 +167,48 @@ namespace BE_ABC.Services
             if (check.Count() > 0)
                 return false;
             return true;
+        }
+        internal async Task<(bool check, string err)> deleteEvent(int find)
+        {
+            try
+            {
+                var findEvent = await db.Event.FindAsync(find);
+
+                if (findEvent == null)
+                {
+                    return (false, "event not found");
+                }
+
+                var posts = db.Post.Where(p => p.eventId == find).ToList();
+                if (posts.Count() > 0)
+                {
+
+                    foreach (var post in posts)
+                    {
+                        try
+                        {
+                            db.Set<Post>().Remove(post);
+
+                            await SaveDatabaseAsync();
+                        }
+                        catch
+                        {
+                            return (false, "Delete post in event fail");
+                        }
+                    }
+                }
+
+                db.Set<Event>().Remove(findEvent);
+
+                await SaveDatabaseAsync();
+
+                return (true, "");
+            }
+            catch
+            {
+                return (false, "Db error");
+            }
+
         }
     }
 }

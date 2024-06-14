@@ -113,18 +113,19 @@ namespace BE_ABC.Controllers
         {
             try
             {
-                foreach (var req in uid)
-                {
-                    bool check = await eventService.checkDelete(req);
-                    if (!check)
-                        return BadRequest($"Event id={uid} in use");
-                }
+                //foreach (var req in uid)
+                //{
+                //    bool check = await eventService.checkDelete(req);
+                //    if (!check)
+                //        return BadRequest($"Event id={uid} in use");
+                //}
 
                 foreach (var req in uid)
                 {
-                    var find = await eventService.FindByIdAsync(req);
-                    if (find != null)
-                        await eventService.DeleteAsync(find);
+                    var (check, err) = await eventService.deleteEvent(req);
+
+                    if (!check)
+                        return BadRequest($"Event {uid} err:" + err);
                 }
 
                 return Ok("Success");

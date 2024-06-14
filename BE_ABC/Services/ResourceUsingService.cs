@@ -108,6 +108,7 @@ namespace BE_ABC.Services
             pt.reporterUid = req.reporterUid;
             pt.borrowerUid = req.borrowerUid;
             pt.startAt = req.startAt;
+            pt.approvalStatus = req.approvalStatus;
             pt.endAt = req.endAt;
             pt.createAt = DateTimeExtensions.getUxixTimeNow();
             pt.updateAt = DateTimeExtensions.getUxixTimeNow();
@@ -132,6 +133,7 @@ namespace BE_ABC.Services
                 findPosType.borrowerUid = req.borrowerUid;
                 findPosType.startAt = req.startAt;
                 findPosType.endAt = req.endAt;
+                findPosType.approvalStatus = req.approvalStatus;
                 findPosType.updateAt = DateTimeExtensions.getUxixTimeNow();
                 findPosType.status = req.status;
 

@@ -1,8 +1,8 @@
 ﻿using BE_ABC.ConstValue;
 using BE_ABC.Models.ErdModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace BE_ABC.Models.ErdModels
 {
@@ -19,6 +19,8 @@ namespace BE_ABC.Models.ErdModels
         public int endAt { get; set; }
         public int createAt { get; set; }
         public int updateAt { get; set; }
+        [DefaultValue(0)]
+        public ApprovalStatus approvalStatus { get; set; }
         public StatusType status { get; set; }
         [ForeignKey("reporterUid")]
         public User Reporter { get; set; }
@@ -26,6 +28,6 @@ namespace BE_ABC.Models.ErdModels
         public User Borrower { get; set; }
         [ForeignKey("resourceId")]
         public Resource Resource { get; set; }
-        
+
     }
 }
